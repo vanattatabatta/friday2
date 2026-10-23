@@ -49,6 +49,7 @@
         <button id="visOpen" class="tool-box" type="button" aria-haspopup="dialog" title="Live chat and the visitors on the website right now, full screen"><span class="tool-ic">💬</span><span class="tool-txt"><b>Live chat &amp; Visitors</b> <small id="visBadge">(0 online now)</small></span></button>
         <button id="grOpen" class="tool-box gr" type="button" aria-haspopup="dialog" title="Live status of the Groq API keys"><span class="tool-ic">🔑</span><span class="tool-txt"><b>Groq keys</b> <small id="grBadge">(status, auto-switch)</small></span></button>
         <button id="bkOpen" class="tool-box" type="button" aria-haspopup="dialog" title="Back up the website and library, and email it automatically"><span class="tool-ic">💾</span><span class="tool-txt"><b>Backup</b> <small id="bkBadge">(email, auto, download)</small></span></button>
+        <button id="dtOpen" class="tool-box" type="button" aria-haspopup="dialog" title="Copy one Neon database into another"><span class="tool-ic">🔁</span><span class="tool-txt"><b>DB Transfer</b> <small id="dtBadge">(Neon to Neon)</small></span></button>
         <button id="refresh" class="primary" type="button">↻ <span>Refresh</span></button>
         <button id="logout" class="ghost" type="button">↪ Logout</button>
         <span id="loggedUser" class="user-pill hidden">Administrator</span>
@@ -187,6 +188,25 @@
     <p class="small" style="margin:0">Hosts such as Railway erase this server folder on every deploy, so rely on the emailed (or Telegram) copy. .env files and passwords for your hosting are never included. Set <code>BACKUP_PASSPHRASE</code> to encrypt backups.</p>
   </div>
 </div></div>
+<div id="dtModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="dtTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:860px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL (main admin)</small><h2 id="dtTitle">DB Transfer: Neon to Neon</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <p class="small" style="margin:0">Copies the whole database (tables, documents, pages, users, settings) from the <b>source</b> Neon database into the <b>destination</b>. Rows already in the destination are never changed or deleted. The connection strings are used only while the transfer runs: they are not saved and never shown in the log.</p>
+    <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr">
+      <label>Source database (copy FROM)<input id="dtSrc" type="password" placeholder="postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require" autocomplete="off" spellcheck="false"></label>
+      <label>Destination database (copy TO)<input id="dtDst" type="password" placeholder="postgresql://user:password@ep-yyyy.neon.tech/neondb?sslmode=require" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <p id="dtEnv" class="small" style="margin:0"></p>
+    <label style="display:flex;gap:8px;align-items:center"><input id="dtSure" type="checkbox"> I checked that the source and destination are the right way round.</label>
+    <div class="hz-bar"><button id="dtAll" class="primary" type="button">⇄ Transfer database now</button><button id="dtDry" class="ghost" type="button">Check only (no changes)</button><button id="dtStop" class="ghost" type="button" disabled>Stop</button><span id="dtMsg" class="small" role="status"></span></div>
+    <details><summary class="small" style="cursor:pointer">Run one step at a time</summary>
+      <div class="hz-bar" style="margin-top:8px"><button class="ghost" type="button" data-dtstep="schema">1. Copy structure</button><button class="ghost" type="button" data-dtstep="dry">2. Check (dry run)</button><button class="ghost" type="button" data-dtstep="copy">3. Copy data</button><button class="ghost" type="button" data-dtstep="finish">4. Finish (keys, indexes)</button></div>
+      <p class="small" style="margin:6px 0 0">"Transfer database now" runs 1, 3 and 4 in order. Run the steps by hand only if you want to stop in between.</p>
+    </details>
+    <div id="dtSum" class="gr-sum">No transfer has run yet.</div>
+    <pre id="dtLog" style="margin:0;max-height:38vh;overflow:auto;background:#0b1220;color:#d6e4ff;border-radius:10px;padding:10px 12px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap">Log appears here.</pre>
+  </div>
+</div></div>
 <div id="visModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="visTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
   <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="visTitle">Visitors on the website <span id="visCount" class="gr-pill ok">0</span></h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
   <div class="hz-body">
@@ -201,6 +221,6 @@
 </div>
 <div id="toast" class="toast"></div>
 <script src="/js/flags.js?v=20261002f" defer></script>
-<script src="/admin/admin.js?v=20261020b" defer></script>
+<script src="/admin/admin.js?v=20261023dt" defer></script>
 </body>
 </html>

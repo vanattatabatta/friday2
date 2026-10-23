@@ -76,3 +76,11 @@ Put Cloudflare in front of the site (see CLOUDFLARE_CDN_SETUP.md) so public page
   Restore with `pg_restore --no-owner -d "<connection string>" neon-backup.dump`.
   Each download reads the whole database and counts toward the 5 GB monthly transfer, so do it weekly, not daily.
 - Neon also keeps a short history you can restore from (Neon console > Backup & Restore); check the window on your plan.
+
+## Moving data from one Neon database to another (Admin > DB Transfer)
+Sign in to /admin as the **main admin** > **DB Transfer**. Paste the source (copy FROM) and destination (copy TO) connection
+strings, tick the confirmation box and press **Transfer database now**. It copies the structure, then every row, then the
+foreign keys and indexes, and shows the live log. **Check only** is a dry run that changes nothing. Rows that already exist in the
+destination are never changed or deleted, so it is safe to run again. The strings are not saved or logged.
+You can also leave both boxes empty and set `SRC_URL` and `DST_URL` on the server instead.
+The command-line scripts (`node neon-schema.js`, `node neon-merge.js --apply`, `node neon-schema.js --post`) still work the same way.

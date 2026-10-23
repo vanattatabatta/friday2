@@ -198,6 +198,14 @@ r.delete("/admins/:id",requireMainAdmin,async(req,res)=>{
 r.get("/db-usage",requireMainAdmin,async(req,res)=>{try{res.set("Cache-Control","no-store");res.json({success:true,...(await require("../services/dbUsage").report())});}catch(e){res.status(500).json({success:false,message:"Could not read the database size."});}});
 /* Backups (main admin only: the file contains user data). Settings, run now, download, test email. */
 /* Download every database table (JSON inside a .zip). Main admin only. */
+/* DB Transfer tab: copy one Neon database into another (structure, rows, keys). Main admin only. Connection strings are never stored or logged. */
+const dbt=()=>require("../services/dbTransfer");
+r.get("/db-transfer",requireMainAdmin,(req,res)=>{res.set("Cache-Control","no-store");res.json({success:true,...dbt().status()});});
+r.post("/db-transfer/start",requireMainAdmin,(req,res)=>{
+  try{const b=req.body||{};res.set("Cache-Control","no-store");res.json({success:true,...dbt().start({src:b.src,dst:b.dst,step:String(b.step||""),by:req.admin&&req.admin.username})});}
+  catch(e){res.status(400).json({success:false,message:e.message});}
+});
+r.post("/db-transfer/stop",requireMainAdmin,(req,res)=>{res.json({success:true,...dbt().stop()});});
 r.get("/db-export",requireMainAdmin,async(req,res)=>{try{const b=await bk().buildBackup({settings:{includeCode:false},full:true});res.set({"Content-Type":"application/octet-stream","Content-Disposition":`attachment; filename="${b.name.replace(/^backup-/,"database-")}"`,"Cache-Control":"no-store"});res.send(b.buf);}catch(e){bkErr(res,e,"Could not export the database.");}});
 const bk=()=>require("../services/backupService");
 const bkErr=(res,e,msg)=>{console.error("[ADMIN] backup:",e.message);res.status(e.status||500).json({success:false,message:e.status?e.message:msg});};

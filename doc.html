@@ -718,11 +718,31 @@ body{background:linear-gradient(180deg,#eaf6f4 0,#f3f6fa 420px,#f6f8fb 100%) fix
 #pgs .stk>.gate.ub .ownact{margin:2px 0 0;gap:2px}#pgs .stk>.gate.ub .ownbtn{padding:6px 20px;font-size:13px}#pgs .stk>.gate.ub .ownact small{font-size:.66rem}
 #pgs .stk>.gate.ub .gmsg{padding:2px 8px;font-size:.7rem}
 
+/* unlock bar: ~85% of the previous height (tighter padding / gaps; the upload option text is now one line) */
+#pgs .stk>.gate.ub{padding:9px 17px 8px}
+#pgs .stk>.gate.ub .ubh{margin-bottom:6px}
+#pgs .stk>.gate.ub .ubh h3{font-size:clamp(.95rem,1.6vw,1.25rem);margin:0}
+#pgs .stk>.gate.ub .ubh p{font-size:.74rem;line-height:1.2}
+#pgs .stk>.gate.ub .uos{gap:7px}
+#pgs .stk>.gate.ub .uo{padding:6px 12px;gap:2px;border-radius:10px}
+#pgs .stk>.gate.ub .uo.best{padding-top:10px}
+#pgs .stk>.gate.ub .uo .uc{font-size:1.05rem;line-height:1.1}
+#pgs .stk>.gate.ub .uo .ut b{font-size:.82rem}#pgs .stk>.gate.ub .uo .ut small{font-size:.66rem;line-height:1.15}
+#pgs .stk>.gate.ub .dots i{width:9px;height:9px}#pgs .stk>.gate.ub .dots{gap:4px}
+#pgs .stk>.gate.ub .vact{top:10px}
+#pgs .stk>.gate.ub .gmsg:empty{display:none}
+/* "N more documents (3+ pages)": animated highlight in the Doc library */
+.lib-meter .cred .more{display:inline-block;font-weight:800;color:#5b21b6;padding:1px 7px;border-radius:999px;background:linear-gradient(100deg,#fde047,#fb923c,#f472b6,#fde047);background-size:240% 100%;box-shadow:0 0 0 0 #f59e0b99;animation:moreGlow 1.8s ease-in-out infinite,moreShift 3.2s linear infinite}
+@keyframes moreGlow{0%,100%{transform:scale(1);box-shadow:0 0 0 0 #f59e0b88}50%{transform:scale(1.06);box-shadow:0 0 0 6px #f59e0b00}}
+@keyframes moreShift{to{background-position:240% 0}}
+@media(prefers-reduced-motion:reduce){.lib-meter .cred .more{animation:none}}
+.gate.ub .cred .more{font-weight:700}
+
 </style>
 </head><body>
 <div id="site-header" data-lib></div>
 <div id="app"></div>
-<p style="text-align:center;color:#9aa3b2;font:12px system-ui;margin:20px">build v34</p>
+<p style="text-align:center;color:#9aa3b2;font:12px system-ui;margin:20px">build v35</p>
 <script src="/js/site-header.js?v=20261023h2"></script><script src="/js/presence.js?v=20261020p1m" defer></script><script src="/js/crumb.js?v=1m"></script><script src="/js/upload-manager.js?v=1"></script><script src="/js/docs-upload.js?v=4"></script><script src="/js/ai-detector.js?v=20261021ai" defer></script><script src="/js/content-enhance.js?v=20261020ce"></script><script src="/js/unlock-chip.js?v=4m"></script>
 <script>
 (function(){var bc=document.getElementById("ah-bc"),sf=document.getElementById("sf");if(bc&&sf){bc.appendChild(sf);document.documentElement.classList.add("sb-in-bc");if(/^\/doc(\/|$)/.test(location.pathname))bc.classList.add("lib-bc")}})();
@@ -755,8 +775,8 @@ toolChips=()=>`<div class="gtools"><span>Your first tool use is free:</span>${SV
 /* the member's progress toward a free unlock, painted into every meter / "upload 5" option on the page */
 paintPack=p=>{document.querySelectorAll(".uo.wpack").forEach(w=>{const rd=p.available>0;w.classList.toggle("ready",rd);if(rd){w.querySelector(".uc").textContent="Use it";w.querySelector(".pcred").textContent=`You have ${p.available} unlock${p.available>1?"s":""} left (valid until ${new Date(p.expires).toLocaleDateString()}). Use one on this document.`}})},
 paintCred=c=>{const rd=c.available>0,n=rd?c.per:c.uploads%c.per;
- document.querySelectorAll(".uo.wup").forEach(w=>{w.classList.toggle("ready",rd);w.querySelector(".dots").innerHTML=dots(n);w.querySelector(".uc").textContent=rd?"Use it":"Free";w.querySelector(".cred").textContent=rd?`You have ${c.available} free unlock${c.available>1?"s":""} ready. Use one on this document.`:`${n} of ${c.per} uploaded. ${c.toNext} more qualifying document${c.toNext>1?"s":""} (3+ pages) = ${c.reward} free unlocks.`});
- document.querySelectorAll(".lib-meter").forEach(m=>{m.querySelector(".dots").innerHTML=dots(n);m.querySelector(".cred").textContent=rd?`You have ${c.available} free unlock${c.available>1?"s":""} ready to use on any document.`:`${n} of ${c.per} uploaded. ${c.toNext} more qualifying document${c.toNext>1?"s":""} (3+ pages) = ${c.reward} free unlocks.`})};
+ document.querySelectorAll(".uo.wup").forEach(w=>{w.classList.toggle("ready",rd);w.querySelector(".dots").innerHTML=dots(n);w.querySelector(".uc").textContent=rd?"Use it":"Free";w.querySelector(".cred").innerHTML=rd?`You have ${c.available} free unlock${c.available>1?"s":""} ready. Use one on this document.`:`${n} of ${c.per} uploaded. <span class="more">${c.toNext} more document${c.toNext>1?"s":""} (3+ pages)</span>`});
+ document.querySelectorAll(".lib-meter").forEach(m=>{m.querySelector(".dots").innerHTML=dots(n);m.querySelector(".cred").innerHTML=rd?`You have ${c.available} free unlock${c.available>1?"s":""} ready to use on any document.`:`${n} of ${c.per} uploaded. <span class="more">${c.toNext} more document${c.toNext>1?"s":""} (3+ pages)</span>`})};
 
 let ME=null;const ME_P=fetch("/api/account/me",{credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{ME=d&&d.user||null;if(ME){const w=(ME.name||"Account").trim().split(/\s+/);$("#acc").textContent=((w[0]||"A")[0]+(w.length>1?w[w.length-1][0]:"")).toUpperCase();$("#acc").classList.remove("in");$("#acc").title=ME.name||"My account";$("#acc").href="/account"}}).catch(()=>{});
 $("#sf").onsubmit=e=>{e.preventDefault();location.href="/doc?q="+encodeURIComponent($("#q").value)};

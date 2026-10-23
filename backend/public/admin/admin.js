@@ -246,8 +246,8 @@
     /* ---- small pop-ups for the header tools (humanizer, WhatsApp number) ---- */
     let lastTool=null;
     const openTool=(id,focusId)=>{const m=$(id);m.classList.remove("hidden");m.setAttribute("aria-hidden","false");lastTool=document.activeElement;if(focusId)setTimeout(()=>$(focusId)&&$(focusId).focus(),30);};
-    const closeTools=()=>{if(window.__mustChangePw)return;clearInterval(window.__grTimer);clearInterval(window.__visTimer);["hzModal","waModal","docModal","userModal","pageModal","grModal","bkModal","visModal","admModal"].forEach(id=>{const m=$(id);if(m&&!m.classList.contains("hidden")){m.classList.add("hidden");m.setAttribute("aria-hidden","true");}});if(lastTool&&lastTool.focus)lastTool.focus();lastTool=null;};
-    ["hzModal","waModal","docModal","userModal","pageModal","grModal","bkModal","visModal","admModal"].forEach(id=>{const m=$(id);m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-close]"))closeTools();});});
+    const closeTools=()=>{if(window.__mustChangePw)return;clearInterval(window.__grTimer);clearInterval(window.__visTimer);["hzModal","waModal","docModal","userModal","pageModal","grModal","bkModal","visModal","admModal","dtModal"].forEach(id=>{const m=$(id);if(m&&!m.classList.contains("hidden")){m.classList.add("hidden");m.setAttribute("aria-hidden","true");}});if(lastTool&&lastTool.focus)lastTool.focus();lastTool=null;};
+    ["hzModal","waModal","docModal","userModal","pageModal","grModal","bkModal","visModal","admModal","dtModal"].forEach(id=>{const m=$(id);m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-close]"))closeTools();});});
     document.addEventListener("keydown",e=>{if(e.key==="Escape")closeTools();});
     $("hzOpen").addEventListener("click",()=>openTool("hzModal","hzIn"));
 
@@ -411,6 +411,33 @@
       catch(e){m.textContent=e.message||"Restore failed.";toast(m.textContent);b.disabled=false;}
     });
     $("foDl").addEventListener("click",()=>foBusy($("foDl"),"Preparing…",async()=>{await bkDownload("/api/admin/db-export","database.zip");$("foMsg").textContent="Download started.";}));
+    /* DB Transfer: Neon to Neon, run on the server; this panel starts it and shows the live log. Main admin only. */
+    let dtTimer=null;
+    function dtRender(d){
+      const jb=d.job,run=!!d.running;
+      $("dtStop").disabled=!run;["dtAll","dtDry"].forEach(id=>$(id).disabled=run);document.querySelectorAll("[data-dtstep]").forEach(b=>b.disabled=run);
+      const e=d.env||{};$("dtEnv").textContent=(e.src&&e.dst)?"Leave both boxes empty to use the server settings SRC_URL ("+e.src+") and DST_URL ("+e.dst+").":"";
+      if(!jb){$("dtSum").textContent="No transfer has run yet.";return;}
+      $("dtSum").innerHTML=`<b>${esc(jb.label)}</b>: ${esc(jb.from)} → ${esc(jb.to)} · `+(run?"<b>running…</b>":jb.ok?'<b style="color:#067647">finished OK</b>':'<b style="color:#b42318">failed</b>');
+      const box=$("dtLog"),stick=box.scrollTop+box.clientHeight>=box.scrollHeight-30;box.textContent=jb.log.join("\n")||"…";if(stick)box.scrollTop=box.scrollHeight;
+      $("dtBadge").textContent=run?"(running…)":"(Neon to Neon)";
+    }
+    async function dtPoll(){
+      try{const d=await readJson(await fetch("/api/admin/db-transfer",{headers:auth()}));dtRender(d);if(d.running){clearTimeout(dtTimer);dtTimer=setTimeout(dtPoll,1500);}else clearTimeout(dtTimer);}
+      catch(e){$("dtMsg").textContent=e.message||"Could not load.";}
+    }
+    async function dtStart(step){
+      const m=$("dtMsg");m.textContent="";
+      if(!$("dtSure").checked){m.textContent="Tick the box to confirm the direction first.";return;}
+      if(step!=="dry"&&!confirm("Copy data into the DESTINATION database now?\nNothing in the destination is deleted or overwritten.")) return;
+      try{const d=await readJson(await fetch("/api/admin/db-transfer/start",{method:"POST",headers:auth({"Content-Type":"application/json"}),body:JSON.stringify({src:$("dtSrc").value,dst:$("dtDst").value,step})}));dtRender(d);clearTimeout(dtTimer);dtTimer=setTimeout(dtPoll,1000);}
+      catch(e){m.textContent=e.message||"Failed.";toast(m.textContent);}
+    }
+    $("dtOpen").addEventListener("click",()=>{openTool("dtModal","dtSrc");dtPoll();});
+    $("dtAll").addEventListener("click",()=>dtStart("all"));
+    $("dtDry").addEventListener("click",()=>dtStart("dry"));
+    document.querySelectorAll("[data-dtstep]").forEach(b=>b.addEventListener("click",()=>dtStart(b.dataset.dtstep)));
+    $("dtStop").addEventListener("click",async()=>{try{dtRender(await readJson(await fetch("/api/admin/db-transfer/stop",{method:"POST",headers:auth()})));}catch(e){$("dtMsg").textContent=e.message||"Failed.";}});
     $("bkOpen").addEventListener("click",()=>{openTool("bkModal","bkEmails");$("bkMsg").textContent="Loading…";bkLoad();lvLoad();});
     $("bkSave").addEventListener("click",()=>bkBusy($("bkSave"),"Saving…",async()=>{const d=await readJson(await fetch("/api/admin/backup/settings",{method:"PUT",headers:auth({"Content-Type":"application/json"}),body:JSON.stringify({emails:$("bkEmails").value,enabled:$("bkEnabled").checked,hours:$("bkHours").value,onlyChanged:$("bkChanged").checked,includeCode:$("bkCode").checked})}));bkRender(d);$("bkMsg").textContent="Saved.";toast("Backup settings saved");}));
     $("bkRun").addEventListener("click",()=>bkBusy($("bkRun"),"Backing up…",async()=>{const d=await readJson(await fetch("/api/admin/backup/run",{method:"POST",headers:auth()}));bkRender(d);$("bkMsg").textContent="Done: "+d.result.name+" ("+bkSize(d.result.size)+"), email "+d.result.email+(d.result.telegram?", telegram "+d.result.telegram:"");toast("Backup finished");}));
