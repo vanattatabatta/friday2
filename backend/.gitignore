@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+!.env.local.example
+!.env.pglite.example
+data/
+
+backups/
+dkim-private.pem
+*.zip.enc

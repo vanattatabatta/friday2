@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script>if(location.protocol==="file:")document.write('<script src="js/file-mode.js?v=1m"><\/script>')</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>My account | Expert Help</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/account.css?v=4">
+</head>
+<body data-page="account">
+<header class="topbar">
+  <a class="brand" href="/"><img src="/favicon.png" alt="" width="34" height="34"><span>Expert <b>Help</b></span></a>
+  <div class="top-actions">
+    <a class="utu utb" href="/doc/upload" data-doc-upload title="Upload 5 documents (3+ pages each) and get 5 free unlocks" aria-label="Upload to Unlock"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 9.6-2"/><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M12 15v2"/></svg><span>Upload to Unlock</span></a>
+    <span data-unlock-host></span>
+    <button class="btn sm" id="setPwBtn" type="button" hidden>Set password</button>
+    <button class="btn ghost sm" id="logoutBtn" type="button">Log out</button>
+  </div>
+</header>
+<main class="dash">
+  <div id="verifyBanner" class="banner" hidden>
+    <span><b>Confirm your email.</b> Orders placed with your email address appear here once it's confirmed.</span>
+    <button class="btn sm" type="button" id="resendBtn">Resend email</button>
+  </div>
+
+  <section class="profile" id="profile" aria-live="polite"><div class="sk" style="width:100%;height:40px;opacity:.35"></div></section>
+
+  <nav class="tabs" role="tablist" aria-label="Account sections">
+    <button class="tab" role="tab" id="t-overview" aria-controls="p-overview" aria-selected="true" data-tab="overview">Overview</button>
+    <button class="tab" role="tab" id="t-orders" aria-controls="p-orders" aria-selected="false" data-tab="orders">My orders</button>
+    <button class="tab" role="tab" id="t-subscription" aria-controls="p-subscription" aria-selected="false" data-tab="subscription">Subscription</button>
+    <button class="tab" role="tab" id="t-docs" aria-controls="p-docs" aria-selected="false" data-tab="docs">My documents</button>
+    <button class="tab" role="tab" id="t-payments" aria-controls="p-payments" aria-selected="false" data-tab="payments">Payments</button>
+    <button class="tab" role="tab" id="t-settings" aria-controls="p-settings" aria-selected="false" data-tab="settings">Profile &amp; security</button>
+  </nav>
+
+  <section class="panel" id="p-overview" role="tabpanel" aria-labelledby="t-overview">
+    <div class="grid" id="tiles"></div>
+    <h2 class="sec">Recent orders <span class="live"><i></i><span id="liveTxt">Live</span></span></h2>
+    <div class="list" id="recent"></div>
+  </section>
+
+  <section class="panel" id="p-orders" role="tabpanel" aria-labelledby="t-orders" hidden>
+    <h2 class="sec" style="margin-top:0">All submitted orders <span class="live"><i></i>Live</span></h2>
+    <div class="list" id="orders"></div>
+    <p style="text-align:center"><button class="btn ghost sm" id="more" type="button" hidden>Load more</button></p>
+  </section>
+
+  <section class="panel" id="p-docs" role="tabpanel" aria-labelledby="t-docs" hidden>
+    <h2 class="sec" style="margin-top:0">Unlocked documents</h2>
+    <p class="sub" id="unlsum">Loading…</p>
+    <div class="list" id="unlocked"></div>
+    <h2 class="sec">My uploaded documents</h2>
+    <p><a class="btn sm" href="/doc/upload">+ Upload documents</a></p>
+    <p class="sub">Uploaded documents are permanent. If one needs to be removed, please contact support and an administrator will do it.</p>
+    <div class="list" id="mydocs"></div>
+  </section>
+
+  <section class="panel" id="p-subscription" role="tabpanel" aria-labelledby="t-subscription" hidden>
+    <div id="sub"></div>
+  </section>
+
+  <section class="panel" id="p-payments" role="tabpanel" aria-labelledby="t-payments" hidden>
+    <h2 class="sec" style="margin-top:0">Payment history</h2>
+    <div class="list" id="txns"></div>
+    <p style="text-align:center"><button class="btn ghost sm" id="moreTxn" type="button" hidden>Load more</button></p>
+  </section>
+
+  <section class="panel" id="p-settings" role="tabpanel" aria-labelledby="t-settings" hidden>
+    <div class="forms">
+      <form class="box2" id="profileForm" novalidate>
+        <h3>Your details</h3>
+        <div class="field"><label for="pName">Full name</label><div class="box"><span class="ic" data-i="user"></span><input id="pName" autocomplete="name" required></div></div>
+        <div class="field"><label for="pEmail">Email <span style="font-weight:400">(cannot be changed)</span></label><div class="box"><span class="ic" data-i="mail"></span><input id="pEmail" disabled></div></div>
+        <div class="field"><label for="pPhone">Phone</label><div class="box"><span class="ic" data-i="phone"></span><input id="pPhone" type="tel" autocomplete="tel"></div></div>
+        <button class="btn" type="submit" id="profileBtn">Save changes</button>
+      </form>
+      <form class="box2" id="pwForm" novalidate>
+        <h3 id="pwTitle">Change password</h3>
+        <div class="field" id="curPwField"><label for="curPw">Current password</label><div class="box"><span class="ic" data-i="lock"></span><input id="curPw" type="password" autocomplete="current-password" required><button class="eye" type="button" data-eye="curPw" aria-label="Show password"></button></div></div>
+        <div class="field"><label for="newPw">New password</label><div class="box"><span class="ic" data-i="lock"></span><input id="newPw" type="password" autocomplete="new-password" placeholder="8+ characters, letters and numbers" required><button class="eye" type="button" data-eye="newPw" aria-label="Show password"></button></div><div class="meter"><i id="meter"></i></div><div class="msg" id="pwMsg"></div></div>
+        <button class="btn" type="submit" id="pwBtn">Update password</button>
+      </form>
+      <div class="box2" id="dangerBox">
+        <h3>Account controls</h3>
+        <p class="sm" style="margin:0 0 12px">Suspend pauses your account until you log in again. Delete removes it permanently.</p>
+        <button class="btn ghost sm" id="suspendBtn" type="button">Suspend my account</button>
+        <button class="btn sm" id="deleteBtn" type="button" style="background:#b42318;border-color:#b42318">Delete my account</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet"><div class="sheet-in"><button class="x" id="mClose" aria-label="Close" type="button">&times;</button><div id="mBody"></div></div></div>
+</div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<script src="/js/docs-upload.js?v=4" defer></script><script src="/js/unlock-chip.js?v=4m" defer></script>
+<script src="/js/account.js?v=20261021a" defer></script>
+<script defer src="/js/presence.js?v=20261020p1m"></script>
+</body>
+</html>

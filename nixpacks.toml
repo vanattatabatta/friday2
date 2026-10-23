@@ -1,0 +1,4 @@
+# Railway/Nixpacks: poppler-utils provides "pdftoppm", used to turn PDF pages into images
+# so they can be blurred on the server (scanned / print-to-PDF files have no text to blur).
+[phases.setup]
+aptPkgs = ["...", "poppler-utils", "libreoffice-writer", "libreoffice-calc", "fonts-liberation"]

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us | Expert Help</title>
+<meta name="description" content="Questions about your order or need help getting started? Send us a message and we typically reply within 2 hours during business hours.">
+<link rel="canonical" href="/contact-us">
+<link href="/favicon.png" rel="icon" type="image/png">
+<link rel="stylesheet" href="/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap">
+<style>
+:root{--ink:#1a1a3a;--mut:#64748b;--line:#dfe3f3;--p1:#6d28d9;--p2:#4f46e5;--red:#c01e12;--ok:#059669;--err:#dc2626;--dark:#17171c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:#444;background:#fbfcff;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 18px 70px}
+.hd{text-align:center;margin-bottom:34px}
+.hd .slbl{font-family:"Dancing Script",cursive;font-size:1.4rem;color:#c41c10}
+.hd h1{font-family:"Playfair Display",serif;font-size:clamp(2rem,4.5vw,2.9rem);color:var(--ink);margin:2px 0 10px;font-weight:900}
+.hd h1 span{color:var(--p1)}
+.hd .ln{width:58px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--p1),#f6a623);margin:0 auto 14px}
+.hd p{max-width:520px;margin:0 auto;color:var(--mut)}
+.grid{display:grid;grid-template-columns:380px 1fr;gap:26px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* info card */
+.info{background:var(--dark);border-radius:22px;padding:34px 30px;color:#fff;position:relative;overflow:hidden}
+.info:before{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-90px;border-radius:50%;background:radial-gradient(circle,rgba(109,40,217,.55),transparent 70%);animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translate(-18px,16px)}}
+.info h2{font-family:"Playfair Display",serif;color:#fff;margin:0 0 8px;font-size:1.5rem;position:relative}
+.info .sub{border-left:3px solid #f97316;padding-left:12px;color:rgba(255,255,255,.66);font-size:.9rem;margin:0 0 26px;position:relative}
+.it{display:flex;gap:14px;margin-bottom:20px;align-items:center;color:#fff;text-decoration:none;position:relative;transition:transform .25s}
+a.it:hover{transform:translateX(5px)}
+.it i{width:44px;height:44px;border-radius:12px;background:rgba(109,40,217,.28);color:#a78bfa;display:grid;place-items:center;flex:none;transition:.3s}
+a.it:hover i,.it:hover i{background:var(--p1);color:#fff;transform:rotate(-8deg) scale(1.08)}
+.it small{display:block;color:#a1a1b5;font-size:.72rem;font-weight:600;letter-spacing:.6px}.it span{font-size:.92rem}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.08);margin-bottom:18px;position:relative}
+.live b{width:8px;height:8px;border-radius:50%;background:#94a3b8}.live.on b{background:#22c55e;box-shadow:0 0 0 0 #22c55e88;animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px #22c55e00}}
+.soc{display:flex;gap:9px;margin-top:8px;position:relative}
+.soc a{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.09);display:grid;place-items:center;color:#cbd5e1;transition:.3s}
+.soc a:hover{background:var(--p1);color:#fff;transform:translateY(-4px)}
+/* form card */
+.form{background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;box-shadow:0 18px 50px rgba(49,46,129,.09);position:relative;overflow:hidden}
+.form:before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--p1),var(--p2),#06b6d4,#f6a623);background-size:200% 100%;animation:bar 5s linear infinite}
+@keyframes bar{to{background-position:200% 0}}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:600px){.row{grid-template-columns:1fr}.form{padding:24px 18px}}
+.f{position:relative;margin-bottom:18px}
+.f label{position:absolute;left:46px;top:17px;color:#94a3b8;font-size:.92rem;pointer-events:none;transition:.2s;background:#fff;padding:0 4px}
+.f>i{position:absolute;left:16px;top:18px;color:#8b8fb5;transition:.25s}
+.f input,.f textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:16px 16px 16px 46px;font:inherit;font-size:.93rem;color:var(--ink);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.f textarea{min-height:140px;resize:vertical;line-height:1.55}
+.f input:hover,.f textarea:hover{border-color:#b9c0e6}
+.f input:focus,.f textarea:focus{border-color:var(--p2);box-shadow:0 0 0 4px rgba(79,70,229,.12)}
+.f input:focus~label,.f input:not(:placeholder-shown)~label,.f textarea:focus~label,.f textarea:not(:placeholder-shown)~label{top:-9px;left:38px;font-size:.72rem;font-weight:600;color:var(--p2)}
+.f:focus-within>i{color:var(--p2);transform:scale(1.15)}
+.f.ok input,.f.ok textarea{border-color:#86efac}.f.ok>i{color:var(--ok)}
+.f.bad input,.f.bad textarea{border-color:var(--err);animation:shake .35s}
+.f.bad>i{color:var(--err)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.f .m{font-size:.76rem;color:var(--err);min-height:0;margin:4px 4px 0;display:none}.f.bad .m{display:block}
+.cnt{position:absolute;right:12px;bottom:-18px;font-size:.72rem;color:#94a3b8}
+.lbl{font-size:.8rem;font-weight:600;color:var(--ink);margin:2px 0 10px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{padding:8px 15px;border:1.5px solid var(--line);border-radius:99px;font-size:.84rem;cursor:pointer;color:#475569;background:#fff;transition:.2s;user-select:none}
+.chips label:hover{border-color:var(--p2);transform:translateY(-2px)}
+.chips input:checked+label{background:linear-gradient(135deg,var(--p1),var(--p2));border-color:transparent;color:#fff;box-shadow:0 8px 18px rgba(79,70,229,.28)}
+.chips input:focus-visible+label{outline:3px solid #a5b4fc;outline-offset:2px}
+.hp{position:absolute;left:-9999px;opacity:0}
+.send{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:200px;height:54px;padding:0 30px;border:0;border-radius:99px;color:#fff;font:600 1rem Poppins,sans-serif;cursor:pointer;background:linear-gradient(135deg,#6d28d9,#c01e12);box-shadow:0 12px 28px rgba(109,40,217,.35);transition:transform .25s,box-shadow .25s}
+.send:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(192,30,18,.35)}.send:hover i{transform:translate(4px,-4px) rotate(8deg)}
+.send i{transition:.3s}.send:active{transform:scale(.97)}
+.send:before{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);animation:shine 3.5s infinite}
+@keyframes shine{60%,100%{left:140%}}
+.send:disabled{cursor:progress;opacity:.85}.send .sp{width:20px;height:20px;border:3px solid #fff5;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.send.load .sp{display:block}.send.load i,.send.load:before{display:none}@keyframes spin{to{transform:rotate(360deg)}}
+.note{margin-top:14px;font-size:.78rem;color:var(--mut)}.note i{color:var(--ok);margin-right:5px}
+.err{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;font-size:.88rem}
+/* success */
+.done{display:none;text-align:center;padding:40px 10px}
+.form.sent .fields{display:none}.form.sent .done{display:block;animation:in .5s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+.ck{width:96px;height:96px;margin:0 auto 18px}.ck circle{fill:none;stroke:#10b981;stroke-width:4;stroke-dasharray:252;stroke-dashoffset:252;animation:dr .6s .1s ease forwards}
+.ck path{fill:none;stroke:#10b981;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:dr .4s .6s ease forwards}@keyframes dr{to{stroke-dashoffset:0}}
+.done h2{font-family:"Playfair Display",serif;color:var(--ink);margin:0 0 8px}.done p{color:var(--mut);margin:0 0 22px}
+.done a,.done button{display:inline-block;margin:4px;padding:11px 22px;border-radius:99px;font:600 .9rem Poppins;text-decoration:none;cursor:pointer;border:1.5px solid var(--p2);color:var(--p2);background:#fff;transition:.2s}
+.done a:hover,.done button:hover{background:var(--p2);color:#fff}
+.reveal{animation:in .6s ease both}.reveal.d2{animation-delay:.12s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ck circle,.ck path{stroke-dashoffset:0}}
+</style></head><body>
+<div id="site-header"></div>
+<main class="wrap">
+<div class="hd"><span class="slbl">Get In Touch</span><h1>Contact <span>Us</span></h1><div class="ln"></div>
+<p>Have a question about your order or need help getting started? We'd love to hear from you.</p></div>
+<div class="grid">
+<aside class="info reveal" aria-label="Contact details">
+<h2>Let's Talk</h2><p class="sub">We typically respond within 2 hours during business hours.</p>
+<div class="live" id="live"><b></b><span id="liveT">Checking availability…</span></div>
+<div class="it"><i class="fas fa-map-marker-alt"></i><div><small>ADDRESS</small><span>42 Flavor Street, Sydney,<br>NSW 2000, Australia</span></div></div>
+<a class="it" href="tel:+18001234567"><i class="fas fa-phone-alt"></i><div><small>PHONE</small><span>+1 (800) 123-4567</span></div></a>
+<a class="it" href="mailto:support@assignmenthelp.com"><i class="fas fa-envelope"></i><div><small>EMAIL</small><span>support@assignmenthelp.com</span></div></a>
+<div class="it"><i class="fas fa-clock"></i><div><small>WORKING HOURS</small><span>Wed - Sun: 9 AM - 11 PM</span></div></div>
+<div class="soc"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a></div>
+</aside>
+<section class="form reveal d2" id="card">
+<div class="fields"><form id="cf" novalidate>
+<span class="lbl">What's this about?</span>
+<div class="chips" id="chips"></div>
+<div class="row">
+<div class="f"><i class="fas fa-user"></i><input id="name" name="name" placeholder=" " autocomplete="name" maxlength="120" required><label for="name">Your name *</label><div class="m"></div></div>
+<div class="f"><i class="fas fa-envelope"></i><input id="email" name="email" type="email" placeholder=" " autocomplete="email" maxlength="200" required><label for="email">Email address *</label><div class="m"></div></div>
+</div>
+<div class="f"><i class="fas fa-phone"></i><input id="phone" name="phone" type="tel" placeholder=" " autocomplete="tel" maxlength="40"><label for="phone">Phone number (optional)</label><div class="m"></div></div>
+<div class="f"><i class="fas fa-comment-dots"></i><textarea id="message" name="message" placeholder=" " maxlength="5000" required></textarea><label for="message">Your message *</label><span class="cnt" id="cnt">0 / 5000</span><div class="m"></div></div>
+<input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div class="err" id="err" role="alert"></div>
+<button class="send" id="send" type="submit"><span class="sp"></span><i class="fas fa-paper-plane"></i><span id="sendT">Send message</span></button>
+<p class="note"><i class="fas fa-lock"></i>Your details are only used to reply to you.</p>
+</form></div>
+<div class="done" role="status" aria-live="polite">
+<svg class="ck" viewBox="0 0 96 96"><circle cx="48" cy="48" r="40"/><path d="M30 49l13 13 24-27"/></svg>
+<h2>Message sent!</h2><p id="doneT">We'll reply within 2 hours during business hours.</p>
+<a href="/">Back to home</a><button type="button" id="again">Send another message</button></div>
+</section>
+</div></main>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)},SUBJ=["Order question","Help getting started","Payment or billing","Account or login","Tools (Ask AI, AI Detector, CiteMe)","Feedback","Something else"];
+var ch=$("chips");SUBJ.forEach(function(s,i){var id="s"+i;ch.insertAdjacentHTML("beforeend",'<input type="radio" name="subject" id="'+id+'" value="'+s.replace(/"/g,"&quot;")+'"'+(i===0?" checked":"")+'><label for="'+id+'">'+s+'</label>')});
+/* working hours: Wed-Sun 9am-11pm Sydney time */
+(function(){try{var p=new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Sydney",weekday:"short",hour:"numeric",hour12:false}).formatToParts(new Date()),d=p.find(function(x){return x.type==="weekday"}).value,h=+p.find(function(x){return x.type==="hour"}).value%24,open=/Wed|Thu|Fri|Sat|Sun/.test(d)&&h>=9&&h<23;$("live").classList.toggle("on",open);$("liveT").textContent=open?"We're online now":"Offline now. We'll reply when we open"}catch(e){$("live").style.display="none"}})();
+var F={name:function(v){return v.trim().length<2?"Please enter your name.":""},email:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?"":"Enter an email address we can reply to."},phone:function(v){return !v||/^[0-9+()\-.\s]{6,40}$/.test(v)?"":"Use digits, spaces, + or - only."},message:function(v){return v.trim().length<10?"Tell us a little more (at least 10 characters).":""}};
+function show(k,msg){var b=$(k).closest(".f");b.classList.toggle("bad",!!msg);b.classList.toggle("ok",!msg&&$(k).value.trim()!=="");b.querySelector(".m").textContent=msg||""}
+Object.keys(F).forEach(function(k){var el=$(k);el.addEventListener("blur",function(){show(k,F[k](el.value))});el.addEventListener("input",function(){if(el.closest(".f").classList.contains("bad"))show(k,F[k](el.value));if(k==="message")$("cnt").textContent=el.value.length+" / 5000"})});
+/* draft carried from the home page form */
+try{var d=JSON.parse(sessionStorage.getItem("ah_contact_draft")||"null");if(d){["name","email","phone","message"].forEach(function(k){if(d[k])$(k).value=d[k]});if(d.subject){var r=[].find.call(document.querySelectorAll('input[name=subject]'),function(x){return x.value===d.subject});if(r)r.checked=true}$("cnt").textContent=$("message").value.length+" / 5000";sessionStorage.removeItem("ah_contact_draft")}}catch(e){}
+/* logged-in members: prefill name + email */
+fetch("/api/account/me",{credentials:"same-origin"}).then(function(r){return r.ok?r.json():null}).then(function(j){var u=j&&j.user;if(!u)return;if(!$("name").value)$("name").value=u.name||"";if(!$("email").value)$("email").value=u.email||""}).catch(function(){});
+$("cf").addEventListener("submit",function(e){e.preventDefault();var bad=null;Object.keys(F).forEach(function(k){var m=F[k]($(k).value);show(k,m);if(m&&!bad)bad=k});if(bad){$(bad).focus();return}
+var b=$("send"),er=$("err");er.style.display="none";b.disabled=true;b.classList.add("load");$("sendT").textContent="Sending…";
+var body={name:$("name").value,email:$("email").value,phone:$("phone").value,message:$("message").value,website:$("website").value,subject:document.querySelector("input[name=subject]:checked").value};
+fetch("/api/contact",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{success:false,message:"Unexpected server reply."}})}).then(function(j){
+ if(j.success){$("doneT").textContent=j.message||"We'll reply within 2 hours.";$("card").classList.add("sent");$("card").scrollIntoView({behavior:"smooth",block:"center"});return}
+ if(j.errors)Object.keys(j.errors).forEach(function(k){if($(k))show(k,j.errors[k])});throw new Error(j.message||"Something went wrong.")
+}).catch(function(x){er.textContent=x.message+" You can also email support@assignmenthelp.com.";er.style.display="block"}).then(function(){b.disabled=false;b.classList.remove("load");$("sendT").textContent="Send message"})});
+$("again").onclick=function(){$("cf").reset();["name","email","phone","message"].forEach(function(k){var f=$(k).closest(".f");f.classList.remove("ok","bad")});$("cnt").textContent="0 / 5000";$("card").classList.remove("sent");$("name").focus()};
+})();
+</script>
+<script src="/js/auth-gate.js?v=2"></script>
+<script src="/js/site-header.js?v=20261023h2"></script>
+<script src="/js/presence.js?v=20261020p1m" defer></script>
+<script src="/js/site-footer.js?v=1" defer></script>
+</body></html>

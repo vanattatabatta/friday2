@@ -1,0 +1,9 @@
+.git
+node_modules
+backend/node_modules
+*.md
+backend/data
+backend/.env
+.env
+backups/
+dkim-private.pem

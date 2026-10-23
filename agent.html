@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><script>if(location.protocol==="file:")document.write('<script src="js/file-mode.js?v=1m"><\/script>')</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Live chat - agent console</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 Arial,Helvetica,sans-serif;color:#1f2937;background:#f1f5f9;height:100vh;display:flex;flex-direction:column}
+button,input,textarea{font:inherit}.top{display:flex;align-items:center;gap:12px;padding:6px 12px;background:#312e81;color:#fff}.top b{flex:1}.top button{border:0;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}
+#login{margin:5vh auto;width:min(340px,92vw);background:#fff;padding:24px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.1)}#login h2{margin:0 0 12px}#login input{width:100%;padding:10px;margin-bottom:10px;border:1.5px solid #c7d2fe;border-radius:8px}#login button{width:100%;padding:11px;border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}#lerr{color:#dc2626;min-height:18px;font-size:13px}
+#app{display:none;flex:1;min-height:0}#list{width:290px;overflow-y:auto;background:#fff;border-right:1px solid #e2e8f0}.it{padding:7px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer}.it:hover,.it.sel{background:#eef2ff}.it b{display:block}.it small{color:#64748b;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tag{float:right;font-size:11px;padding:1px 8px;border-radius:9px;background:#fee2e2;color:#b91c1c}.tag.active{background:#dcfce7;color:#166534}.tag.closed{background:#e2e8f0;color:#475569}
+#main{flex:1;display:flex;flex-direction:column;min-width:0}#empty{margin:auto;color:#64748b}#chat{display:none;flex:1;flex-direction:column;min-height:0}.ch{display:flex;align-items:center;gap:8px;padding:6px 12px;background:#fff;border-bottom:1px solid #e2e8f0}.ch div{flex:1;min-width:0}.ch button{border:0;border-radius:8px;padding:8px 14px;background:#dc2626;color:#fff;cursor:pointer}
+#log{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px}.m{max-width:75%;padding:8px 12px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}.m small{display:block;font-size:11px;opacity:.6}.m.agent{align-self:flex-end;background:#4f46e5;color:#fff}.m.visitor{align-self:flex-start;background:#fff;border:1px solid #e2e8f0}.m.system{align-self:center;color:#64748b;font-size:12px}
+#f{display:flex;gap:8px;padding:6px 8px;background:#fff;border-top:1px solid #e2e8f0}#f textarea{flex:1;resize:none;height:54px;padding:8px 10px;border:1.5px solid #c7d2fe;border-radius:10px}#f button{padding:0 20px;border:0;border-radius:10px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}
+#gear{border:0;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}#gear:hover{background:rgba(255,255,255,.3)}
+#set{position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px}#set.on{display:flex}
+#set .card{width:min(460px,100%);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}#set h3{margin:0 0 4px;font-size:18px}#set p{margin:0 0 14px;color:#64748b;font-size:13px}
+#set label{display:block;font-weight:600;margin:12px 0 6px}#set label small{font-weight:400;color:#64748b}#set textarea{width:100%;padding:10px;border:1.5px solid #c7d2fe;border-radius:10px;resize:vertical;min-height:64px}
+#set .ck{display:flex;align-items:flex-start;gap:8px;font-weight:400;margin:10px 0}#set .ck input{margin-top:4px}
+#set .row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}#set .row button{border:0;border-radius:10px;padding:9px 18px;cursor:pointer;font-weight:600}#ss{background:#4f46e5;color:#fff}#sc{background:#eef2ff;color:#3730a3}#serr{color:#dc2626;font-size:13px;min-height:18px;margin-top:6px}#sok{color:#16a34a;font-size:13px}
+.tabs{display:flex;gap:6px}.tabs button{display:flex;align-items:center;gap:6px}.tabs button.on{background:#fff;color:#312e81;font-weight:700}.tabs .bd{min-width:20px;padding:0 6px;border-radius:10px;background:#22c55e;color:#fff;font-size:11px;line-height:18px;text-align:center}
+#vis{display:none;flex:1;min-height:0;overflow:auto;padding:8px 12px}.vstats{display:flex;gap:12px;flex-wrap:wrap}.vc{flex:1;min-width:140px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 16px}.vc b{display:block;font-size:28px;line-height:1.1;color:#312e81}.vc span{color:#64748b;font-size:12px}.vc.live b:before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:lp 1.8s infinite;vertical-align:2px}@keyframes lp{70%{box-shadow:0 0 0 9px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+#vcc{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.cc{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:999px;font-size:12.5px}.cc b{color:#4f46e5}
+.vwrap{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:auto}#vt{width:100%;border-collapse:collapse;min-width:1150px}#vt th{position:sticky;top:0;text-align:left;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#64748b;background:#f8fafc;padding:9px 12px;border-bottom:1px solid #e2e8f0}#vt td{padding:9px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;font-size:13px}#vt tr:last-child td{border-bottom:0}#vt .ip{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}#vt .msg{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#475569}#vt .none{text-align:center;color:#94a3b8;padding:28px}
+.pill{display:inline-block;padding:2px 9px;border-radius:9px;font-size:11.5px;background:#e2e8f0;color:#475569}.pill.chat{background:#dcfce7;color:#166534;font-weight:700}.pill.end{background:#fef3c7;color:#92400e}#vt button{border:0;border-radius:8px;padding:5px 10px;background:#4f46e5;color:#fff;cursor:pointer;font-size:12px}
+#canned{display:flex;flex-wrap:wrap;gap:6px;align-items:center;max-height:84px;overflow-y:auto;padding:7px 8px 0;background:#fff;border-top:1px solid #e2e8f0}#canned+#f{border-top:0}
+#canned .cn{display:inline-flex;align-items:center;border:1px solid #c7d2fe;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12.5px;line-height:1;overflow:hidden}
+#canned .cn button{border:0;background:none;color:inherit;cursor:pointer;padding:6px 11px;font-size:12.5px}#canned .cn:hover{background:#e0e7ff;border-color:#a5b4fc}#canned .cn button:focus-visible{outline:2px solid #4f46e5;outline-offset:-2px}
+#canned .cn .x{padding:6px 8px 6px 0;color:#64748b;font-size:14px}#canned .cn .x:hover{color:#dc2626}#canned .add{border:1px dashed #a5b4fc;background:#fff;color:#4f46e5;border-radius:999px;padding:6px 11px;font-size:12.5px;cursor:pointer}#canned .add:hover{background:#eef2ff}
+#canned .lbl{font-size:11.5px;color:#64748b;margin-right:2px}
+.emb .top>b,.emb #out{display:none!important}.emb .top{padding:6px 12px}.emb .top .tabs{flex:1}
+.ch .pg{display:block;margin-top:2px;font-size:12px;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ch .pg a{color:#4f46e5;text-decoration:none}.ch .pg a:hover{text-decoration:underline}.ch .pg b{color:#1f2937}
+#vt td.pgc{max-width:340px}#vt td.pgc b{display:block;color:#1f2937;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#vt td.pgc a{display:block;color:#4f46e5;font-size:12px;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#vt td.pgc a:hover{text-decoration:underline}
+@media(max-width:700px){#list{width:100%;max-height:34vh}#app{flex-direction:column}}
+</style></head><body>
+<div class="top"><b>Live chat - agent console</b><div class="tabs" id="tabs" hidden><button type="button" data-tab="chats" class="on">💬 Chats</button><button type="button" data-tab="vis">🌍 Live visitors <span class="bd" id="vbadge">0</span></button></div><span id="who"></span><button id="gear" type="button" hidden>⚙ Settings</button><button id="out" hidden>Log out</button></div>
+<form id="login"><h2>Agent sign in</h2><input id="u" placeholder="Username" autocomplete="username" required><input id="p" type="password" placeholder="Password" autocomplete="current-password" required><div id="lerr"></div><button>Sign in</button></form>
+<div id="app"><div id="list"></div><div id="main"><div id="empty">Select a chat on the left to read it and reply. New visitors appear here instantly with a sound alert.</div>
+<div id="chat"><div class="ch"><div><b id="cn"></b><br><small id="ce"></small><small class="pg" id="cpg"></small></div><button id="end">End chat &amp; email transcript</button></div><div id="log"></div>
+<div id="canned" role="group" aria-label="Canned responses (click to insert into the reply box)"></div>
+<form id="f"><textarea id="t" placeholder="Type your reply (Enter to send, Shift+Enter for a new line)" maxlength="2000"></textarea><button>Send</button></form></div></div></div>
+<div id="vis"><div class="vstats"><div class="vc live"><b id="vn">0</b><span>Visitors on the website right now</span></div><div class="vc"><b id="vch">0</b><span>Chatting with support</span></div><div class="vc"><b id="vco">0</b><span>Countries</span></div></div>
+<div id="vcc"></div>
+<div class="vwrap"><table id="vt"><thead><tr><th>Country</th><th>IP address</th><th>Page (title &amp; URL)</th><th>Device</th><th>On site</th><th>Status</th><th>Name</th><th>Phone</th><th>Email</th><th>Last message</th><th></th></tr></thead><tbody id="vb"></tbody></table></div></div>
+<div id="set" role="dialog" aria-label="Chat settings"><div class="card"><h3>Chat settings</h3><p>WhatsApp contact for the website icon, and where chat transcripts are forwarded.</p>
+<label for="swa">WhatsApp number <small>(country code first, digits only, e.g. 14155550100 - leave empty to hide the WhatsApp icon)</small></label><input id="swa" type="tel" inputmode="numeric" placeholder="14155550100" maxlength="20" style="width:100%;padding:10px;border:1.5px solid #c7d2fe;border-radius:10px">
+<label for="swt">WhatsApp pre-filled message <small>(what the visitor's chat starts with)</small></label><input id="swt" type="text" placeholder="Hi, I need expert help" maxlength="200" style="width:100%;padding:10px;border:1.5px solid #c7d2fe;border-radius:10px">
+<label for="sfe">Forward transcripts to <small>(comma separated emails)</small></label><textarea id="sfe" placeholder="you@company.com, manager@company.com"></textarea>
+<label class="ck"><input type="checkbox" id="scp"><span>Also email a copy to the visitor when they gave an email address</span></label>
+<label class="ck"><input type="checkbox" id="snc"><span>Email these addresses when a new chat starts, so no message is missed</span></label>
+<div id="serr"></div><div class="row"><button id="sc" type="button">Cancel</button><button id="ss" type="button">Save</button></div></div></div>
+<script src="/js/flags.js?v=20261002fm"></script>
+<script>
+(function(){
+var TK="lc_agent_token",EMB=/[?&]embed=1/.test(location.search),token=sessionStorage.getItem(TK)||(EMB?localStorage.getItem("aht_admin_token"):null),sel=null,sessions={},es=null;
+if(EMB)document.documentElement.className="emb";
+var $=function(i){return document.getElementById(i)};
+
+/* ---- message alert: tab title shows the message + sound (both directions) ---- */
+var ntBase = null, ntIv = null, ntOff = null, ntCtx = null;
+function ntAudio() { try { if (!ntCtx) ntCtx = new (window.AudioContext || window.webkitAudioContext)(); if (ntCtx.state === "suspended") ntCtx.resume(); } catch (e) {} return ntCtx; }
+["pointerdown", "keydown", "touchstart"].forEach(function (ev) { window.addEventListener(ev, ntAudio, { passive: true }); });
+function ntTone(freqs) {
+  var c = ntAudio(); if (!c) return;
+  freqs.forEach(function (f, i) {
+    try {
+      var o = c.createOscillator(), g = c.createGain(), t = c.currentTime + i * 0.16;
+      o.type = "sine"; o.frequency.value = f; o.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.15);
+      o.start(t); o.stop(t + 0.16);
+    } catch (e) {}
+  });
+}
+function ntRestore() {
+  if (ntIv) { clearInterval(ntIv); ntIv = null; }
+  if (ntOff) { clearTimeout(ntOff); ntOff = null; }
+  if (ntBase !== null) { document.title = ntBase; ntBase = null; }
+}
+function ntTitle(who, body) {
+  var txt = "\uD83D\uDCAC " + (who ? who + ": " : "") + String(body || "").replace(/\s+/g, " ").trim().slice(0, 70);
+  if (ntBase === null) ntBase = document.title;
+  if (ntIv) { clearInterval(ntIv); ntIv = null; } if (ntOff) { clearTimeout(ntOff); ntOff = null; }
+  document.title = txt;
+  if (document.hidden) {
+    var on = true;
+    ntIv = setInterval(function () { on = !on; document.title = on ? txt : ntBase; }, 1000);
+  } else { ntOff = setTimeout(ntRestore, 6000); }
+}
+function notifyMsg(who, body, mine) { ntTone(mine ? [660] : [880, 1175]); ntTitle(who, body); }
+document.addEventListener("visibilitychange", function () { if (!document.hidden) ntRestore(); });
+window.addEventListener("focus", ntRestore);
+function api(path,opt){opt=opt||{};opt.headers=Object.assign({"Authorization":"Bearer "+token,"Content-Type":"application/json"},opt.headers||{});
+ return fetch("/api/livechat"+path,opt).then(function(r){if(r.status===401){logout();throw new Error("auth")}return r.json()})}
+function logout(){sessionStorage.removeItem(TK);location.reload()}
+$("out").onclick=logout;
+$("gear").onclick=function(){$("serr").textContent="";api("/agent/settings").then(function(j){var s=j.settings;$("sfe").value=(s.forward_emails||[]).join(", ");$("swa").value=s.whatsapp_number||"";$("swt").value=s.whatsapp_text||"";$("scp").checked=!!s.send_visitor_copy;$("snc").checked=!!s.notify_new_chat;$("set").classList.add("on");$("sfe").focus()})};
+$("sc").onclick=function(){$("set").classList.remove("on")};
+$("set").onclick=function(e){if(e.target===$("set"))$("set").classList.remove("on")};
+$("ss").onclick=function(){$("serr").textContent="";
+ api("/agent/settings",{method:"PUT",body:JSON.stringify({whatsapp_number:$("swa").value,whatsapp_text:$("swt").value,forward_emails:$("sfe").value,send_visitor_copy:$("scp").checked,notify_new_chat:$("snc").checked})})
+ .then(function(j){if(!j.success)throw new Error(j.message);$("sfe").value=j.settings.forward_emails.join(", ");$("swa").value=j.settings.whatsapp_number||"";$("serr").innerHTML='<span id="sok">Saved. WhatsApp: '+(j.settings.whatsapp_number?"+"+j.settings.whatsapp_number:"icon hidden")+". Transcripts go to: "+(j.settings.forward_emails.join(", ")||"(nobody)")+"</span>"})
+ .catch(function(x){$("serr").textContent=x.message||"Could not save."})};
+
+$("login").onsubmit=function(e){e.preventDefault();$("lerr").textContent="";
+ fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:$("u").value,password:$("p").value})})
+ .then(function(r){return r.json()}).then(function(j){if(!j.success)throw new Error(j.message);token=j.token;sessionStorage.setItem(TK,token);$("who").textContent=j.username;boot()})
+ .catch(function(x){$("lerr").textContent=x.message||"Login failed"})};
+function boot(){$("tabs").hidden=false;loadVis();$("gear").hidden=false;$("login").style.display="none";$("app").style.display="flex";$("out").hidden=false;
+ api("/agent/sessions").then(function(j){sessions={};j.sessions.forEach(function(s){sessions[s.id]=s});drawList()});
+ if(es)es.close();es=new EventSource("/api/livechat/agent/stream?token="+encodeURIComponent(token));
+ es.addEventListener("presence",function(e){setSnap(JSON.parse(e.data))});
+ es.addEventListener("session_new",function(e){var s=JSON.parse(e.data);sessions[s.id]=s;drawList()});
+ es.addEventListener("session_update",function(e){var s=JSON.parse(e.data);sessions[s.id]=Object.assign(sessions[s.id]||{},s);drawList();if(s.id===sel){head(sessions[s.id]);var j=sessions[s.id];$("ce").textContent=(j.email||"No email (anonymous visitor)")+(j.phone?" \u00B7 Phone "+j.phone:"")+(j.country?" \u00B7 "+j.country:"")+(j.client_ip?" \u00B7 IP "+j.client_ip:"")+(PERS[j.persona]?" \u00B7 Visitor sees you as "+PERS[j.persona]:"")}});
+ es.addEventListener("session_closed",function(e){var d=JSON.parse(e.data);if(sessions[d.id])sessions[d.id].status="closed";drawList();if(sel===d.id)lock()});
+ es.addEventListener("message",function(e){var m=JSON.parse(e.data),s=sessions[m.session_id];
+  if(s){s.last_body=m.sender==="system"?s.last_body:m.body;s.last_activity=m.created_at;drawList()}else{api("/agent/sessions").then(function(j){j.sessions.forEach(function(x){sessions[x.id]=x});drawList()})}
+  if(m.session_id===sel)addMsg(m);
+  if(m.sender!=="system"){var mine=m.sender==="agent";notifyMsg(mine?"You":(m.sender_name||(s&&s.name)||"Visitor"),m.body,mine)}})}
+function esc(s){return String(s==null?"":s)}
+/* same order as backend/services/personas.js and js/livechat.js */
+var PERS=["Emily Carter","Michael Brooks","Jessica Miller","Daniel Harris","Ashley Johnson","Brandon Walker","Olivia Bennett","Jason Mitchell","Megan Collins","Ryan Thompson"];
+var snap=null,recv=0,tab="chats";
+function showTab(t){tab=t;$("app").style.display=t==="chats"?"flex":"none";$("vis").style.display=t==="vis"?"block":"none";
+ document.querySelectorAll("#tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===t)});if(t==="vis")drawVis()}
+document.querySelectorAll("#tabs button").forEach(function(b){b.onclick=function(){showTab(b.dataset.tab)}});
+function loadVis(){api("/agent/visitors").then(function(j){if(j.success)setSnap(j)}).catch(function(){})}
+function setSnap(s){snap=s;recv=Date.now();$("vbadge").textContent=s.online;drawVis()}
+function flag(code,name){var i=document.createElement("img");i.alt="";i.title=name||"";i.src=(window.AHFlags&&AHFlags.uri(code))||"https://flagcdn.com/w40/"+code.toLowerCase()+".png";i.style.cssText="width:22px;height:15px;object-fit:cover;border-radius:2px;margin-right:7px;vertical-align:-3px;box-shadow:0 0 0 1px #e2e8f0";
+ i.onerror=function(){var b=document.createElement("span");b.textContent=code.toUpperCase();b.style.cssText="display:inline-block;min-width:22px;margin-right:7px;padding:0 3px;font:700 10px/15px Arial,sans-serif;text-align:center;background:#e2e8f0;color:#475569;border-radius:2px";if(i.parentNode)i.parentNode.replaceChild(b,i)};return i}
+function dur(ms){var s=Math.max(0,Math.floor(ms/1000)),m=Math.floor(s/60),h=Math.floor(m/60);return h?h+"h "+(m%60)+"m":m?m+"m "+(s%60)+"s":s+"s"}
+function td(tr,txt,cls){var c=document.createElement("td");if(cls)c.className=cls;if(txt!=null)c.textContent=txt;tr.appendChild(c);return c}
+function drawVis(){if(tab!=="vis"||!snap)return;
+ $("vn").textContent=snap.online;$("vch").textContent=snap.chatting;$("vco").textContent=snap.countries.filter(function(c){return c.code}).length;
+ var cc=$("vcc");cc.innerHTML="";snap.countries.forEach(function(c){var d=document.createElement("span");d.className="cc";if(c.code)d.appendChild(flag(c.code,c.name));d.appendChild(document.createTextNode(c.name+" "));var b=document.createElement("b");b.textContent=c.count;d.appendChild(b);cc.appendChild(d)});
+ var tb=$("vb");tb.innerHTML="";
+ if(!snap.visitors.length){var r=document.createElement("tr"),c=td(r,"No visitors on the website right now.","none");c.colSpan=11;tb.appendChild(r)}
+ snap.visitors.forEach(function(v){var r=document.createElement("tr"),c=td(r,null);if(v.country_code)c.appendChild(flag(v.country_code,v.country));c.appendChild(document.createTextNode(v.country));
+  td(r,v.ip||"-","ip");var pc=td(r,null,"pgc");if(v.page_title){var pt=document.createElement("b");pt.textContent=v.page_title;pt.title=v.page_title;pc.appendChild(pt)}
+  if(v.page_url&&/^https?:\/\//i.test(v.page_url)){var pa=document.createElement("a");pa.href=v.page_url;pa.target="_blank";pa.rel="noopener noreferrer";pa.textContent=v.page_url.replace(/^https?:\/\/[^\/]+/i,"")||"/";pa.title=v.page_url;pc.appendChild(pa)}else if(!v.page_title)pc.textContent=v.page||"/";
+  td(r,v.device);td(r,dur(snap.at-v.first_seen+(Date.now()-recv)));
+  var sc=td(r,null),pl=document.createElement("span");pl.className="pill"+(v.chatting?" chat":v.session_id?" end":"");pl.textContent=v.chatting?"\uD83D\uDCAC Chatting":v.session_id?"Chat ended":"Browsing";sc.appendChild(pl);
+  td(r,v.name||"-");td(r,v.phone||(v.session_id?"(not given)":"-"));td(r,v.email||(v.session_id?"(not given)":"-"));var m=td(r,v.last_message||"-","msg");m.title=v.last_message||"";
+  var ac=td(r,null);if(v.session_id){var b=document.createElement("button");b.textContent="Open chat";b.onclick=function(){showTab("chats");openChat(v.session_id)};ac.appendChild(b)}
+  tb.appendChild(r)})}
+setInterval(function(){drawVis();if(sel&&sessions[sel]&&$("chat").style.display!=="none")head(sessions[sel])},1000);
+function drawList(){var l=$("list");l.innerHTML="";
+ Object.values(sessions).sort(function(a,b){return (a.status==="closed")-(b.status==="closed")||new Date(b.last_activity)-new Date(a.last_activity)}).forEach(function(s){
+  var d=document.createElement("div");d.className="it"+(s.id===sel?" sel":"");
+  var t=document.createElement("span");t.className="tag "+s.status;t.textContent=s.status==="waiting"?"new":s.status;
+  var b=document.createElement("b");if(s.country_code){var fi=document.createElement("img");fi.src=(window.AHFlags&&AHFlags.uri(s.country_code))||"https://flagcdn.com/w40/"+s.country_code.toLowerCase()+".png";fi.alt="";fi.title=s.country||"";fi.style.cssText="width:20px;height:14px;object-fit:cover;border-radius:2px;margin-right:6px;vertical-align:-2px";b.appendChild(fi)}b.appendChild(document.createTextNode(esc(s.name)));var sm=document.createElement("small");sm.textContent=esc((s.phone?"\u260E "+s.phone+" \u00B7 ":"")+(s.last_body||s.email));
+  d.appendChild(t);d.appendChild(b);d.appendChild(sm);d.onclick=function(){openChat(s.id)};l.appendChild(d)});
+ if(!l.children.length){l.innerHTML='<div class="it"><small>No chats yet</small></div>'}}
+function pageEl(host,title,url,page){host.innerHTML="";if(!title&&!url&&!page){host.style.display="none";return}host.style.display="block";
+ var l=document.createElement("span");l.textContent="Page: ";host.appendChild(l);
+ if(title){var b=document.createElement("b");b.textContent=title;host.appendChild(b);host.appendChild(document.createTextNode(" \u2014 "))}
+ if(url&&/^https?:\/\//i.test(url)){var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.textContent=url;host.appendChild(a)}else host.appendChild(document.createTextNode(page||url||""))}
+function liveVisitor(id){return snap&&snap.visitors.filter(function(v){return v.session_id===id})[0]||null}
+var lastHead="";
+function head(s){if(!s)return;$("cn").textContent=s.name+(s.phone?"  \u260E "+s.phone:"");
+ var v=liveVisitor(s.id),t=(v&&v.page_title)||s.page_title||"",u=(v&&v.page_url)||s.page_url||"",k=t+"|"+u+"|"+(v?v.page:"");
+ if(k!==lastHead||sel!==head.sel){lastHead=k;head.sel=sel;pageEl($("cpg"),t,u,v&&v.page)}}
+function openChat(id){lastHead="";sel=id;drawList();api("/agent/sessions/"+id+"/messages").then(function(j){
+ $("empty").style.display="none";$("chat").style.display="flex";sessions[id]=Object.assign(sessions[id]||{},j.session);head(sessions[id]);$("ce").textContent=(j.session.email||"No email (anonymous visitor)")+(j.session.phone?" \u00B7 Phone "+j.session.phone:"")+(j.session.country?" \u00B7 "+j.session.country:"")+(j.session.client_ip?" \u00B7 IP "+j.session.client_ip:"")+(PERS[j.session.persona]?" \u00B7 Visitor sees you as "+PERS[j.session.persona]:"");
+ $("log").innerHTML="";j.messages.forEach(addMsg);j.session.status==="closed"?lock():unlock();$("t").focus()})}
+function addMsg(m){var d=document.createElement("div");d.className="m "+m.sender;d.appendChild(document.createTextNode(m.body));
+ if(m.sender!=="system"){var s=document.createElement("small");s.textContent=(m.sender_name||"")+" · "+new Date(m.created_at).toLocaleTimeString();d.appendChild(s)}
+ var L=$("log");L.appendChild(d);L.scrollTop=L.scrollHeight}
+function lock(){$("f").style.display="none";$("canned").style.display="none";$("end").style.display="none"}function unlock(){$("f").style.display="flex";$("canned").style.display="flex";$("end").style.display=""}
+/* ---- canned responses: one click drops the text straight into the reply box (no network, nothing is sent until you press Send) ---- */
+var CANNED=[
+ {l:"Greeting",t:"Hi there! Thanks for reaching out. How can I help you today?"},
+ {l:"Need details",t:"Could you please share the subject, word count or number of pages, your deadline and any instructions or files you have?"},
+ {l:"Deadline?",t:"What is your deadline (date, time and time zone)?"},
+ {l:"Free quote",t:"Thanks! As soon as I have those details I'll get you a free quote."},
+ {l:"One moment",t:"Give me a moment while I check that for you."},
+ {l:"Email?",t:"Could you share your email address so we can send you the details?"},
+ {l:"WhatsApp",t:"If it's easier, you can also message us on WhatsApp using the green icon at the bottom left of the website."},
+ {l:"Anything else?",t:"Is there anything else I can help you with?"},
+ {l:"Thanks / bye",t:"Thanks for chatting with us. Have a great day!"}
+],CKEY="lc_canned_custom";
+function customCanned(){try{var a=JSON.parse(localStorage.getItem(CKEY)||"[]");return Array.isArray(a)?a.filter(function(x){return x&&typeof x.t==="string"&&x.t}):[]}catch(e){return[]}}
+function saveCustom(a){try{localStorage.setItem(CKEY,JSON.stringify(a))}catch(e){}}
+function insertCanned(txt){var t=$("t"),a=t.selectionStart==null?t.value.length:t.selectionStart,b=t.selectionEnd==null?a:t.selectionEnd,pre=t.value.slice(0,a),post=t.value.slice(b);
+ if(pre&&!/\s$/.test(pre))txt=" "+txt;
+ var room=t.maxLength-pre.length-post.length;if(room<=0){t.focus();return}
+ txt=txt.slice(0,room);t.value=pre+txt+post;var pos=pre.length+txt.length;t.focus();t.setSelectionRange(pos,pos)}
+function drawCanned(){var box=$("canned"),custom=customCanned();box.innerHTML="";
+ var lb=document.createElement("span");lb.className="lbl";lb.textContent="Canned:";box.appendChild(lb);
+ function chip(item,ci){var w=document.createElement("span");w.className="cn";var b=document.createElement("button");b.type="button";b.textContent=item.l;b.title=item.t;
+  b.onmousedown=function(e){e.preventDefault()};b.onclick=function(){insertCanned(item.t)};w.appendChild(b);
+  if(ci!=null){var x=document.createElement("button");x.type="button";x.className="x";x.textContent="\u00D7";x.title="Remove this canned response";x.setAttribute("aria-label","Remove "+item.l);
+   x.onclick=function(){var c=customCanned();c.splice(ci,1);saveCustom(c);drawCanned()};w.appendChild(x)}
+  box.appendChild(w)}
+ CANNED.forEach(function(c){chip(c)});custom.forEach(function(c,i){chip(c,i)});
+ var add=document.createElement("button");add.type="button";add.className="add";add.textContent="+ Add";add.title="Save your own canned response (stored in this browser)";
+ add.onclick=function(){var v=prompt("Type the canned response to save (it will be inserted into the reply box when you click it):","");if(!v||!v.trim())return;v=v.trim().slice(0,2000);
+  var l=prompt("Short button name:",v.slice(0,18));l=(l||v.slice(0,18)).trim().slice(0,24)||v.slice(0,18);var c=customCanned();c.push({l:l,t:v});saveCustom(c);drawCanned()};
+ box.appendChild(add)}
+drawCanned();
+function send(){var v=$("t").value.trim();if(!v||!sel)return;$("t").value="";
+ api("/agent/sessions/"+sel+"/messages",{method:"POST",body:JSON.stringify({body:v})}).then(function(j){if(!j.success)alert(j.message)})}
+$("f").onsubmit=function(e){e.preventDefault();send()};
+$("t").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+$("end").onclick=function(){var s=sessions[sel];var x=prompt("End this chat. The transcript goes to "+(s.email?s.email+" and ":"")+"the team inbox.\nSend it to another email too? (optional)","");if(x===null)return;
+ api("/agent/sessions/"+sel+"/close",{method:"POST",body:JSON.stringify({emails:x.trim()?[x.trim()]:[]})}).then(function(j){
+  alert(j.emailed&&j.emailed.length?"Transcript emailed to: "+j.emailed.join(", "):"Chat closed, but no email could be sent (check mail settings).")})};
+function beep(){ntTone([880,1175])}
+if(token){api("/agent/sessions").then(function(){boot()}).catch(function(){})}
+})();
+</script><script>try{if(localStorage.getItem("ah_upq")){var s=document.createElement("script");s.src="/js/upload-manager.js?v=1";document.head.appendChild(s)}}catch(e){}</script>
+</body></html>

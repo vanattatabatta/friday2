@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Expert Help • Admin</title>
+<link rel="stylesheet" href="/admin/admin.css?v=20261020a">
+</head>
+<body>
+<div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+<main class="shell">
+  <section id="login" class="login-screen">
+    <div class="login-brand"><span class="brand-icon">AH</span><div><b>Expert Help</b><small>Admin Console</small></div></div>
+    <div class="login-card">
+      <div class="login-icon">🔐</div>
+      <h1>Welcome back</h1><p>Sign in to manage customer requirements.</p>
+      <form id="loginForm" autocomplete="on">
+        <label for="username">Username</label>
+        <div class="input-wrap"><span>👤</span><input id="username" name="username" autocomplete="username" placeholder="Admin username" required></div>
+        <label for="password">Password</label>
+        <div class="input-wrap"><span>🔒</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required><button type="button" id="togglePassword" class="eye">◉</button></div>
+        <button id="loginBtn" class="primary full" type="submit"><span>Sign in</span><span>→</span></button>
+        <div id="loginMessage" class="message" role="alert"></div>
+      </form>
+      <form id="setupForm" class="hidden" autocomplete="off" style="margin-top:18px;border-top:1px solid #e4e7ee;padding-top:14px">
+        <b>First-time setup: create the main admin</b>
+        <p class="small">This site has no admin yet. Enter the <code>ADMIN_SETUP_TOKEN</code> you set on the host, then choose the admin login.</p>
+        <label for="suToken">Setup token</label><div class="input-wrap"><input id="suToken" type="password" autocomplete="off" required></div>
+        <label for="suUser">Admin username</label><div class="input-wrap"><input id="suUser" autocomplete="off" required></div>
+        <label for="suPass">Admin password (10+ characters)</label><div class="input-wrap"><input id="suPass" type="password" autocomplete="new-password" minlength="10" required></div>
+        <button id="suBtn" class="primary full" type="submit"><span>Create admin</span></button>
+        <div id="suMsg" class="message" role="alert"></div>
+      </form>
+    </div>
+    <small class="secure-note">Protected admin area • Session secured with JWT</small>
+  </section>
+
+  <section id="app" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon">AH</span><div><b>Expert Help</b><small>Admin Console</small></div></div>
+      <div class="top-tools">
+        <button id="hzOpen" class="tool-box" type="button" aria-haspopup="dialog"><span class="tool-ic">✨</span><span class="tool-txt"><b>Humanize text</b> <small>(admin only)</small></span></button>
+        <button id="waOpen" class="tool-box wa" type="button" aria-haspopup="dialog" title="Change the WhatsApp number"><span class="wa-dot" aria-hidden="true"></span><span class="tool-txt"><b>WhatsApp chat</b><small id="waState">Loading…</small></span></button>
+        <button id="docOpen" class="tool-box" type="button" aria-haspopup="dialog"><span class="tool-ic">📚</span><span class="tool-txt"><b>Documents</b> <small>(library, admin delete)</small></span></button>
+        <button id="pageOpen" class="tool-box" type="button" aria-haspopup="dialog"><span class="tool-ic">📄</span><span class="tool-txt"><b>Static pages</b> <small>(upload, auto sitemap)</small></span></button>
+        <button id="adminOpen" class="tool-box" type="button" aria-haspopup="dialog"><span class="tool-ic">🛡️</span><span class="tool-txt"><b>Admins</b> <small>(create, roles, password)</small></span></button>
+        <button id="userOpen" class="tool-box" type="button" aria-haspopup="dialog"><span class="tool-ic">👥</span><span class="tool-txt"><b>Users</b> <small>(block or delete accounts)</small></span></button>
+        <button id="visOpen" class="tool-box" type="button" aria-haspopup="dialog" title="Live chat and the visitors on the website right now, full screen"><span class="tool-ic">💬</span><span class="tool-txt"><b>Live chat &amp; Visitors</b> <small id="visBadge">(0 online now)</small></span></button>
+        <button id="grOpen" class="tool-box gr" type="button" aria-haspopup="dialog" title="Live status of the Groq API keys"><span class="tool-ic">🔑</span><span class="tool-txt"><b>Groq keys</b> <small id="grBadge">(status, auto-switch)</small></span></button>
+        <button id="bkOpen" class="tool-box" type="button" aria-haspopup="dialog" title="Back up the website and library, and email it automatically"><span class="tool-ic">💾</span><span class="tool-txt"><b>Backup</b> <small id="bkBadge">(email, auto, download)</small></span></button>
+        <button id="refresh" class="primary" type="button">↻ <span>Refresh</span></button>
+        <button id="logout" class="ghost" type="button">↪ Logout</button>
+        <span id="loggedUser" class="user-pill hidden">Administrator</span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><span class="stat-icon">📥</span><div><small>Total</small><strong id="statTotal">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">🆕</span><div><small>New</small><strong id="statNew">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">⏳</span><div><small>In Progress</small><strong id="statProgress">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">✓</span><div><small>Completed</small><strong id="statCompleted">0</strong></div></div>
+    </div>
+
+    <section class="panel">
+      <div class="ord-tabs" id="ordTabs" role="tablist" aria-label="Order type"><button class="ord-tab on" type="button" role="tab" aria-selected="true" data-t="">All orders <b id="tabAll">0</b></button><button class="ord-tab" type="button" role="tab" aria-selected="false" data-t="expert">Expert Help <b id="tabExpert">0</b></button><button class="ord-tab ai" type="button" role="tab" aria-selected="false" data-t="ai">&#10024; AI to Human <b id="tabAi">0</b></button></div>
+      <div class="panel-toolbar"><div class="search"><span>⌕</span><input id="search" type="search" placeholder="Search order, customer, email, subject…" autocomplete="off"></div><select id="statusFilter"><option value="">All statuses</option><option>New</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select></div>
+      <div id="list"><div class="loading"><span class="spinner"></span>Loading submissions…</div></div>
+    </section>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden" aria-hidden="true"><div class="modal-card"><div class="modal-head"><div><small>SUBMISSION</small><h2 id="modalTitle">Order</h2></div><button id="close" class="close" type="button">×</button></div><div id="modalBody"></div></div></div>
+<div id="hzModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="hzTitle" aria-hidden="true"><div class="modal-card tool-card">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="hzTitle">Humanize text</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <textarea id="hzIn" maxlength="14000" placeholder="Paste AI-written text here (40 to ~2,000 words)…"></textarea>
+    <div class="hz-bar"><select id="hzTone" aria-label="Writing tone"><option value="academic">Academic</option><option value="professional">Professional</option><option value="casual">Casual</option></select><button id="hzGo" class="primary" type="button">Humanize</button><span id="hzMsg" class="small" role="status"></span></div>
+    <div id="hzScore" class="hz-score hidden"></div>
+    <textarea id="hzOut" readonly placeholder="Human-written version appears here"></textarea>
+    <div class="hz-bar"><button id="hzCopy" class="ghost" type="button">Copy text</button><button id="hzClear" class="ghost" type="button">Clear</button></div>
+  </div>
+</div></div>
+<div id="waModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="waTitle" aria-hidden="true"><div class="modal-card tool-card wa-card">
+  <div class="modal-head"><div><small>WHATSAPP</small><h2 id="waTitle">WhatsApp chat number</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <p id="waHelp" class="small" style="margin:0">Loading…</p>
+    <label for="waNum" class="small"><b>Number</b> (country code first, digits only)</label>
+    <input id="waNum" class="tool-input" type="tel" inputmode="numeric" maxlength="20" placeholder="e.g. 14155550100" autocomplete="off">
+    <label for="waTxt" class="small"><b>Pre-filled message</b> (optional)</label>
+    <input id="waTxt" class="tool-input" type="text" maxlength="200" placeholder="Hi, I need expert help" autocomplete="off">
+    <div class="hz-bar"><button id="waSave" class="primary" type="button">Save</button><span id="waMsg" class="small" role="status"></span></div>
+  </div>
+</div></div>
+<div id="docModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="docTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="docTitle">Uploaded documents</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div class="hz-bar"><input id="docQ" class="tool-input" type="search" placeholder="Search title, course, school, owner email…" autocomplete="off" style="flex:1"><button id="docGo" class="primary" type="button">Search</button><button id="docSel" class="ghost" type="button" disabled style="color:#b42318;border:1.5px solid #b42318;font-weight:700;white-space:nowrap">🗑 Delete selected (0)</button><span id="docMsg" class="small" role="status"></span></div>
+    <div id="docWarn" class="hz-warn hidden"></div>
+    <div id="docList" style="max-height:60vh;overflow:auto"></div>
+  </div>
+</div></div>
+<div id="pageModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pageTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="pageTitle">Static pages</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <p class="small" style="margin:0">Choose <b>any document</b> (Word, PDF, Excel, CSV, text or HTML). It is converted to HTML, <b>published automatically</b> and the HTML is shown below. Or paste HTML and press Upload page. It goes live at <b>/url-name</b> (for example <b>/database-expert-help</b>) and is added to <b>/sitemap.xml</b> automatically. Uploading the same URL name again replaces the page.</p>
+    <div class="hz-bar"><input id="pgFile" type="file" accept=".html,.htm,.docx,.doc,.rtf,.odt,.pdf,.xlsx,.xls,.ods,.csv,.tsv,.txt,.md"><span id="pgFileName" class="small"></span></div>
+    <div class="hz-bar"><input id="pgSlug" class="tool-input" type="text" maxlength="100" placeholder="URL name, e.g. database-expert-help" autocomplete="off" style="flex:1;min-width:220px"><input id="pgTitle" class="tool-input" type="text" maxlength="300" placeholder="Page title (optional, read from &lt;title&gt;)" autocomplete="off" style="flex:2;min-width:220px"></div>
+    <input id="pgDesc" class="tool-input" type="text" maxlength="400" placeholder="Meta description (optional, read from the page)" autocomplete="off">
+    <input id="pgH1" class="tool-input" type="text" maxlength="300" placeholder="Page heading H1 shown in the top banner (optional, otherwise the page's own &lt;h1&gt; / title)" autocomplete="off">
+    <textarea id="pgH1Text" class="tool-input" maxlength="1000" rows="2" placeholder="Text below the H1 in the top banner (optional, otherwise the meta description)" style="min-height:60px;resize:vertical"></textarea>
+    <textarea id="pgHtml" spellcheck="false" placeholder="…or paste the page HTML here" style="min-height:140px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px"></textarea>
+    <div class="hz-bar"><label class="small" style="display:flex;gap:6px;align-items:center"><input id="pgNoindex" type="checkbox"> Do not index (keep out of Google and the sitemap)</label><label class="small" style="display:flex;gap:6px;align-items:center" title="Off = the page is shown inside the home page layout (top bar, nav, search box, form, footer)"><input id="pgPlain" type="checkbox"> Plain page (no site layout)</label><button id="pgSave" class="primary" type="button">Upload page</button><button id="pgClear" class="ghost" type="button">Clear form</button><span id="pgMsg" class="small" role="status"></span></div>
+    <div id="pgList" style="max-height:40vh;overflow:auto"></div>
+  </div>
+</div></div>
+<div id="admModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="admTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="admTitle">Admin accounts</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div id="pwWarn" class="hz-warn hidden">You are using a temporary password. Choose your own password to continue.</div>
+    <b>Change my password</b>
+    <div class="hz-bar">
+      <input id="pwCur" class="tool-input" type="password" placeholder="Current password" autocomplete="current-password" style="flex:1;min-width:170px">
+      <input id="pwNew" class="tool-input" type="password" placeholder="New password (min 8 characters)" autocomplete="new-password" style="flex:1;min-width:170px">
+      <input id="pwNew2" class="tool-input" type="password" placeholder="Repeat new password" autocomplete="new-password" style="flex:1;min-width:170px">
+      <button id="pwSave" class="primary" type="button">Change password</button><span id="pwMsg" class="small" role="status"></span>
+    </div>
+    <div id="admMain" class="hidden">
+      <hr style="margin:14px 0;border:0;border-top:1px solid #e5e7f5">
+      <b>Create an admin or manager</b>
+      <p class="small" style="margin:4px 0 8px"><b>Admin</b>: every tool except managing accounts. <b>Manager</b>: orders, live chat and visitors only. The person must choose their own password at first sign-in.</p>
+      <div class="hz-bar">
+        <input id="admUser" class="tool-input" type="text" maxlength="40" placeholder="Username / User ID" autocomplete="off" style="flex:1;min-width:150px">
+        <input id="admEmail" class="tool-input" type="email" maxlength="255" placeholder="Email (to send sign-in details)" autocomplete="off" style="flex:1;min-width:190px">
+        <select id="admRole" aria-label="Role"><option value="admin">Admin</option><option value="manager">Manager</option></select>
+        <input id="admPass" class="tool-input" type="text" maxlength="100" placeholder="Password (blank = auto-generate)" autocomplete="off" style="flex:1;min-width:190px">
+      </div>
+      <div class="hz-bar" style="margin-top:8px"><label class="small" style="display:flex;gap:6px;align-items:center"><input id="admSend" type="checkbox" checked> Email the sign-in details</label><button id="admCreate" class="primary" type="button">Create account</button><span id="admMsg" class="small" role="status"></span></div>
+      <div id="admMail" class="hz-warn hidden" style="margin-top:8px"></div>
+      <div id="admList" style="max-height:38vh;overflow:auto;margin-top:10px"></div>
+    </div>
+  </div>
+</div></div>
+<div id="userModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="userTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="userTitle">Customer accounts</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div class="hz-bar"><input id="userQ" class="tool-input" type="search" placeholder="Search name, email or user ID…" autocomplete="off" style="flex:1"><button id="userGo" class="primary" type="button">Search</button><span id="userMsg" class="small" role="status"></span></div>
+    <div id="userList" style="max-height:60vh;overflow:auto"></div>
+  </div>
+</div></div>
+<div id="grModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="grTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="grTitle">Groq API keys</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div id="grSum" class="gr-sum">Loading…</div>
+    <div class="hz-bar"><button id="grTest" class="primary" type="button">Test keys</button><button id="grRefresh" class="ghost" type="button">↻ Refresh</button><span id="grMsg" class="small" role="status"></span></div>
+    <div id="grList" style="max-height:60vh;overflow:auto"></div>
+    <p id="grNote" class="small" style="margin:0"></p>
+    <h3 style="margin:8px 0 0">Current visitors <span id="onCount" class="gr-pill ok">0</span></h3>
+    <div id="onList" style="max-height:40vh;overflow:auto"><div class="empty">Loading…</div></div>
+  </div>
+</div></div>
+<div id="bkModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="bkTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:820px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL (main admin)</small><h2 id="bkTitle">Website backup</h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div id="bkSum" class="gr-sum">Loading…</div>
+    <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr">
+      <label style="grid-column:1/-1">Send backups to (separate several emails with commas)<input id="bkEmails" type="text" placeholder="you@gmail.com, partner@gmail.com" autocomplete="off"></label>
+      <label style="display:flex;gap:8px;align-items:center"><input id="bkEnabled" type="checkbox"> Automatic backups</label>
+      <label>Check every<select id="bkHours"><option value="1">1 hour</option><option value="3">3 hours</option><option value="6">6 hours</option><option value="12">12 hours</option><option value="24">day</option><option value="72">3 days</option><option value="168">week</option></select></label>
+      <label style="display:flex;gap:8px;align-items:center"><input id="bkChanged" type="checkbox"> Only when something changed (new library documents, pages, orders)</label>
+      <label style="display:flex;gap:8px;align-items:center"><input id="bkCode" type="checkbox"> Include website files (code, pages), not just the database</label>
+    </div>
+    <div class="hz-bar"><button id="bkSave" class="primary" type="button">Save settings</button><button id="bkRun" class="ghost" type="button">Back up now &amp; email</button><button id="bkDl" class="ghost" type="button">Download backup</button><button id="bkTest" class="ghost" type="button">Send test email</button><span id="bkMsg" class="small" role="status"></span></div>
+    <h3 style="margin:8px 0 0">Live database backup (every minute)</h3>
+    <div id="lvSum" class="gr-sum">Loading…</div>
+    <div class="hz-bar"><button id="lvDl" class="primary" type="button">Download latest database backup</button><button id="lvRun" class="ghost" type="button">Back up now</button><span id="lvMsg" class="small" role="status"></span></div>
+    <p class="small" style="margin:0">The whole database (library documents and pages, users, orders, chats, settings) is saved on the server about a minute after anything changes, and once more when the server stops. An hourly copy (last 24) and a daily copy (last 7) are kept. Nothing is sent to any outside service. Download it whenever you like and keep a copy on your computer.</p>
+    <div id="lvFiles" class="small">Loading…</div>
+    <h3 style="margin:8px 0 0">Restore from a backup file</h3>
+    <div class="hz-bar"><input id="lvFile" type="file" accept=".gz,.enc,.tar.gz,application/gzip"><input id="lvConfirm" type="text" placeholder="Type RESTORE" autocomplete="off" style="max-width:150px"><button id="lvRestore" class="ghost" type="button">Restore this file</button><span id="lvRMsg" class="small" role="status"></span></div>
+    <p class="small" style="margin:0">Use this after a fresh deploy that came up empty, or to go back to an older copy: choose the <code>db-latest.tar.gz</code> you downloaded (or an hourly / daily copy). The current data is saved first as <code>db-before-restore-…</code>, then the site restarts once with the chosen data.</p>
+    <h3 style="margin:8px 0 0">Database (built-in)</h3>
+    <div class="hz-bar"><button id="foDl" class="primary" type="button">Download live database (all tables)</button><span id="foMsg" class="small" role="status"></span></div>
+    <p class="small" style="margin:0">The download is a .zip with one JSON file for every table of the database that is live right now, including uploaded documents. It does not contain website files.</p>
+    <h3 style="margin:8px 0 0">Copies kept on the server</h3>
+    <div id="bkFiles" class="small">Loading…</div>
+    <p class="small" style="margin:0">Hosts such as Railway erase this server folder on every deploy, so rely on the emailed (or Telegram) copy. .env files and passwords for your hosting are never included. Set <code>BACKUP_PASSPHRASE</code> to encrypt backups.</p>
+  </div>
+</div></div>
+<div id="visModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="visTitle" aria-hidden="true"><div class="modal-card tool-card" style="max-width:1000px;width:96%">
+  <div class="modal-head"><div><small>ADMIN TOOL</small><h2 id="visTitle">Visitors on the website <span id="visCount" class="gr-pill ok">0</span></h2></div><button class="close" data-close type="button" aria-label="Close">×</button></div>
+  <div class="hz-body">
+    <div id="visCountries" class="gr-sum">Loading…</div>
+    <div class="hz-bar"><button id="visRefresh" class="ghost" type="button">↻ Refresh</button><span id="visMsg" class="small" role="status"></span></div>
+    <div id="visList" style="max-height:62vh;overflow:auto"><div class="empty">Loading…</div></div>
+  </div>
+</div></div>
+<div id="lcFull" class="lc-full hidden" role="dialog" aria-modal="true" aria-label="Live chat and visitors" aria-hidden="true">
+  <div class="lc-full-bar"><div><small>ADMIN TOOL</small><b>Live chat &amp; Visitors</b></div><button id="lcFullClose" class="close" type="button" aria-label="Close">×</button></div>
+  <iframe id="lcFrame" title="Live chat and visitors" data-src="/agent?embed=1" allow="autoplay"></iframe>
+</div>
+<div id="toast" class="toast"></div>
+<script src="/js/flags.js?v=20261002f" defer></script>
+<script src="/admin/admin.js?v=20261020b" defer></script>
+</body>
+</html>

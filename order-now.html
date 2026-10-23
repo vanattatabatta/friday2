@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Order Now - Get Expert Help | Expert Help</title>
+<meta name="description" content="Place your order in two minutes: share your requirements, deadline and files. You get an order ID by email and an expert contacts you.">
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="/favicon.png">
+<style>
+:root{--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--bg:#f4f6fc;--p1:#4f46e5;--p2:#7c3aed;--ok:#16a34a;--err:#dc2626;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:15px/1.55 Poppins,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:radial-gradient(1200px 500px at 10% -10%,#e0e7ff 0,transparent 60%),radial-gradient(900px 500px at 100% 0,#ede9fe 0,transparent 55%),var(--bg);min-height:100vh}
+a{color:var(--p1)}
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:18px}
+.brand img{width:38px;height:38px;object-fit:contain;border-radius:10px}
+.bar-in .sp{flex:1}
+.bar-in a.back{font-weight:600;font-size:14px;text-decoration:none;padding:8px 14px;border-radius:999px;background:#eef2ff;color:#3730a3}
+.bar-in a.back:hover{background:#e0e7ff}
+.wrap{max-width:1120px;margin:0 auto;padding:26px 16px 70px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px rgba(15,23,42,.08)}
+.hd{padding:22px 26px;border-radius:20px 20px 0 0;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff}
+.hd h1{margin:0;font-size:24px;line-height:1.25}
+.hd p{margin:6px 0 0;opacity:.92;font-size:14px}
+form{padding:24px 26px 26px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f.full{grid-column:1/-1}
+label,.lbl{font-weight:600;font-size:13px;color:#334155}
+label i,.lbl i{color:var(--err);font-style:normal}
+label small,.lbl small{font-weight:400;color:var(--mut)}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);padding:11px 13px;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;outline:0;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--p1);box-shadow:0 0 0 4px rgba(79,70,229,.14)}
+input.bad,select.bad,textarea.bad{border-color:var(--err);box-shadow:0 0 0 4px rgba(220,38,38,.1)}
+textarea{min-height:130px;resize:vertical}
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--mut)}
+.drop{border:2px dashed #c7d2fe;border-radius:14px;background:#f8faff;padding:18px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s}
+.drop:hover,.drop.on{background:#eef2ff;border-color:var(--p1)}
+.drop b{display:block;color:#3730a3}
+.drop span{font-size:12.5px;color:var(--mut)}
+.drop input{display:none}
+.files{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.files li{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:13px}
+.files li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.files li em{font-style:normal;color:var(--mut);font-size:12px}
+.files li button{border:0;background:none;color:var(--err);font-size:18px;line-height:1;cursor:pointer;padding:0 4px}
+.err{display:none;margin:14px 0 0;padding:11px 14px;border-radius:12px;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;font-size:13.5px}
+.err.on{display:block}
+.go{margin-top:18px;width:100%;border:0;border-radius:14px;padding:15px 18px;font:700 16px Poppins,"Segoe UI",Arial,sans-serif;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--p1),var(--p2));box-shadow:0 12px 28px rgba(79,70,229,.35);transition:transform .15s,box-shadow .15s,opacity .15s}
+.go:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(79,70,229,.42)}
+.go:disabled{opacity:.65;cursor:default;transform:none}
+.sec{margin:12px 0 0;text-align:center;font-size:12.5px;color:var(--mut)}
+.side{display:flex;flex-direction:column;gap:16px}
+.side .card{padding:20px 22px}
+.side h2{margin:0 0 12px;font-size:17px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.steps li{display:flex;gap:12px}
+.steps li>i{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#eef2ff;color:var(--p1);font-style:normal;font-weight:800}
+.steps b{display:block;font-size:14px}
+.steps small{color:var(--mut);font-size:12.5px}
+.tick{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+.tick li::before{content:"\2713";color:var(--ok);font-weight:800;margin-right:8px}
+.done{display:none;padding:34px 26px 30px;text-align:center}
+.done.on{display:block;animation:pop .35s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.chk{width:68px;height:68px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:#dcfce7;color:var(--ok);font-size:34px;font-weight:800}
+.done h2{margin:0 0 4px;font-size:23px}
+.done p{margin:0 auto 14px;color:var(--mut);max-width:460px}
+.oid{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:#eef2ff;border:1.5px dashed #a5b4fc;margin:4px 0 6px}
+.oid small{color:#4338ca;font-weight:600}
+.oid b{font:800 24px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:1.5px;color:#312e81}
+.oid button{border:0;border-radius:8px;background:#fff;color:#3730a3;font:600 12px Poppins,Arial,sans-serif;padding:6px 10px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.sum{margin:16px auto 0;max-width:460px;text-align:left;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.sum div{display:flex;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
+.sum div:last-child{border-bottom:0}
+.sum span{flex:none;width:96px;color:var(--mut)}
+.sum b{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:600}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.acts a,.acts button{border-radius:12px;padding:11px 20px;font:600 14px Poppins,Arial,sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid #c7d2fe;background:#fff;color:#3730a3}
+.acts a.pri{background:var(--p1);border-color:var(--p1);color:#fff}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;padding-top:16px}.side{order:2}}
+@media(max-width:560px){.g,.dl{grid-template-columns:1fr}.hd{padding:18px}.hd h1{font-size:20px}form{padding:18px}.oid b{font-size:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="/"><img src="/img/logo.webp" alt="" width="38" height="38" onerror="this.style.display='none'"><span>Expert Help</span></a>
+  <span class="sp"></span>
+  <a class="back" href="/">&larr; Back to home</a>
+</div></header>
+
+<main class="wrap">
+  <section class="card" aria-labelledby="ttl">
+    <div class="hd"><h1 id="ttl">Order Now</h1><p>Tell us what you need. You will get an order ID by email and an expert will contact you.</p></div>
+
+    <form id="orderForm" novalidate autocomplete="on">
+      <div class="g">
+        <div class="f"><label for="name">Your name <i>*</i></label><input id="name" name="name" type="text" maxlength="120" autocomplete="name" placeholder="Full name" required></div>
+        <div class="f"><label for="email">Email <i>*</i> <small>(order ID is sent here)</small></label><input id="email" name="email" type="email" maxlength="255" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="f"><label for="phone">Contact number <i>*</i> <small>(with country code)</small></label><input id="phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="+1 555 123 4567" required></div>
+        <div class="f"><label for="service">What do you need help with? <i>*</i></label>
+          <select id="service" name="service" required>
+            <option value="">Select a service</option>
+            <option>Essay / Writing</option><option>Coding / Programming</option><option>Online class</option><option>Exam / Quiz</option>
+            <option>Research / Report</option><option>Presentation / Slides</option><option>Math / Statistics</option><option>Other</option>
+          </select></div>
+        <div class="f full"><label for="subject">Subject / topic <i>*</i></label><input id="subject" name="subject" type="text" maxlength="300" placeholder="e.g. Data structures project, Nursing case study" required></div>
+        <div class="f full"><span class="lbl">Deadline <i>*</i> <small>(India time, IST)</small></span>
+          <div class="dl"><input id="ddate" name="deadline_date" type="date" aria-label="Deadline date" required>
+            <select id="dtime" name="deadline_time" aria-label="Deadline hour" required></select></div></div>
+        <div class="f full"><label for="message">Requirements <i>*</i></label><textarea id="message" name="message" maxlength="8000" placeholder="Describe the task: topic, word count or pages, format, special instructions..." required></textarea></div>
+        <div class="f full"><span class="lbl">Attachments <small>(optional, up to 20 files, 20 MB each)</small></span>
+          <label class="drop" id="drop" for="files"><b>Click to choose files or drop them here</b><span>Word, PDF, Excel, images, code, ZIP...</span><input id="files" type="file" multiple></label>
+          <ul class="files" id="fl"></ul></div>
+      </div>
+      <div class="err" id="err" role="alert"></div>
+      <button class="go" id="go" type="submit">Submit Order</button>
+      <p class="sec">&#128274; 100% secure. No spam. Your files are seen only by our team.</p>
+    </form>
+
+    <div class="done" id="done" aria-live="polite">
+      <div class="chk" aria-hidden="true">&#10003;</div>
+      <h2>Thank you! Your order is placed.</h2>
+      <p id="doneMsg"></p>
+      <div class="oid"><small>Order ID</small><b id="oid">-</b><button type="button" id="cp">Copy</button></div>
+      <div class="sum" id="sum"></div>
+      <div class="acts"><a class="pri" href="/">Back to home</a><button type="button" id="again">Place another order</button></div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="card"><h2>What happens next</h2>
+      <ol class="steps">
+        <li><i>1</i><div><b>Submit your details</b><small>Takes about two minutes.</small></div></li>
+        <li><i>2</i><div><b>Get your order ID</b><small>Shown here and emailed to you with your order details.</small></div></li>
+        <li><i>3</i><div><b>An expert contacts you</b><small>We confirm the quote and start work.</small></div></li>
+      </ol></div>
+    <div class="card"><h2>Why order with us</h2>
+      <ul class="tick"><li>100% AI free expert help</li><li>On-time delivery</li><li>Private and confidential</li><li>Live chat support</li></ul></div>
+  </aside>
+</main>
+
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)},form=$("orderForm"),err=$("err"),go=$("go"),picked=[];
+var MAX_FILES=20,MAX_MB=20;
+
+/* deadline: today in India time (the server checks it in IST too) */
+function ist(){var d=new Date(Date.now()+5.5*3600e3);return{date:d.toISOString().slice(0,10),hour:d.getUTCHours()}}
+(function(){
+  var t=$("dtime"),h,i,lab;
+  for(i=0;i<24;i++){h=(i<10?"0":"")+i+":00";lab=(i%12||12)+":00 "+(i<12?"AM":"PM");var o=document.createElement("option");o.value=h;o.textContent=lab+"  ("+h+")";if(i===18)o.selected=true;t.appendChild(o)}
+  var n=ist();$("ddate").min=n.date;
+})();
+
+/* attachments */
+function size(b){return b>=1048576?(b/1048576).toFixed(1)+" MB":Math.max(1,Math.round(b/1024))+" KB"}
+function drawFiles(){
+  var ul=$("fl");ul.innerHTML="";
+  picked.forEach(function(f,i){var li=document.createElement("li"),s=document.createElement("span"),e=document.createElement("em"),x=document.createElement("button");
+    s.textContent=f.name;s.title=f.name;e.textContent=size(f.size);x.type="button";x.textContent="\u00D7";x.setAttribute("aria-label","Remove "+f.name);
+    x.onclick=function(){picked.splice(i,1);drawFiles()};li.appendChild(s);li.appendChild(e);li.appendChild(x);ul.appendChild(li)});
+}
+function addFiles(list){
+  var msg="";
+  Array.prototype.forEach.call(list,function(f){
+    if(f.size>MAX_MB*1048576){msg=f.name+" is larger than "+MAX_MB+" MB.";return}
+    if(picked.length>=MAX_FILES){msg="You can attach up to "+MAX_FILES+" files.";return}
+    if(!picked.some(function(p){return p.name===f.name&&p.size===f.size}))picked.push(f)});
+  drawFiles();show(msg);
+}
+$("files").addEventListener("change",function(){addFiles(this.files);this.value=""});
+var dz=$("drop");
+["dragenter","dragover"].forEach(function(e){dz.addEventListener(e,function(ev){ev.preventDefault();dz.classList.add("on")})});
+["dragleave","drop"].forEach(function(e){dz.addEventListener(e,function(ev){ev.preventDefault();dz.classList.remove("on")})});
+dz.addEventListener("drop",function(ev){if(ev.dataTransfer&&ev.dataTransfer.files)addFiles(ev.dataTransfer.files)});
+
+function show(m){err.textContent=m||"";err.classList.toggle("on",!!m)}
+function bad(el,on){el.classList.toggle("bad",on)}
+form.addEventListener("input",function(e){if(e.target.classList)e.target.classList.remove("bad")});
+
+/* the chat widget should not pop open while the form is being filled in */
+function active(){window.__ahFormActive=true;try{window.dispatchEvent(new Event("ah-form-active"))}catch(e){}}
+form.addEventListener("focusin",active,{once:true});
+
+form.addEventListener("submit",function(ev){
+  ev.preventDefault();show("");
+  var f={name:$("name"),email:$("email"),phone:$("phone"),service:$("service"),subject:$("subject"),ddate:$("ddate"),dtime:$("dtime"),message:$("message")},first=null,m="";
+  Object.keys(f).forEach(function(k){bad(f[k],false)});
+  function fail(el,t){bad(el,true);if(!first){first=el;m=t}}
+  if(!f.name.value.trim())fail(f.name,"Please enter your name.");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()))fail(f.email,"Please enter a valid email address.");
+  if(f.phone.value.replace(/\D/g,"").length<7)fail(f.phone,"Please enter your contact number with country code.");
+  if(!f.service.value)fail(f.service,"Please choose what you need help with.");
+  if(!f.subject.value.trim())fail(f.subject,"Please enter the subject or topic.");
+  var n=ist();
+  if(!f.ddate.value)fail(f.ddate,"Please choose your deadline date.");
+  else if(f.ddate.value<n.date)fail(f.ddate,"Deadline cannot be in the past.");
+  else if(f.ddate.value===n.date&&Number(f.dtime.value.slice(0,2))<=n.hour)fail(f.dtime,"Please choose a later hour for today's deadline (India time).");
+  if(!f.message.value.trim())fail(f.message,"Please describe your requirements.");
+  if(first){show(m);first.focus();return}
+
+  var data=new FormData();
+  data.append("name",f.name.value.trim());data.append("email",f.email.value.trim());data.append("phone",f.phone.value.trim());
+  data.append("subject",f.subject.value.trim());data.append("deadline_date",f.ddate.value);data.append("deadline_time",f.dtime.value);
+  data.append("message","Service: "+f.service.value+"\n\n"+f.message.value.trim()+"\n\n(Sent from the Order Now page)");
+  picked.forEach(function(file){data.append("assignmentFiles",file,file.name)});
+
+  go.disabled=true;go.textContent="Submitting\u2026";
+  fetch("/api/submissions",{method:"POST",body:data,headers:{"Accept":"application/json"}})
+    .then(function(r){return r.json().catch(function(){return{success:false,message:"Something went wrong. Please try again."}})})
+    .then(function(j){
+      if(!j.success)throw new Error(j.message||"Could not submit your order.");
+      success(j,{name:f.name.value.trim(),email:f.email.value.trim(),subject:f.subject.value.trim(),service:f.service.value});
+    })
+    .catch(function(e){show(e&&e.message&&e.message!=="Failed to fetch"?e.message:"Connection problem. Please check your internet and try again.");go.disabled=false;go.textContent="Submit Order"});
+});
+
+function row(k,v){var d=document.createElement("div"),a=document.createElement("span"),b=document.createElement("b");a.textContent=k;b.textContent=v;d.appendChild(a);d.appendChild(b);return d}
+function success(j,v){
+  $("oid").textContent=j.orderId||"-";
+  $("doneMsg").textContent="We have sent your order details and order ID to "+v.email+". Please keep the order ID for any follow-up (check your spam folder if you do not see the email).";
+  var s=$("sum");s.innerHTML="";
+  s.appendChild(row("Service",v.service));s.appendChild(row("Subject",v.subject));
+  if(j.deadline)s.appendChild(row("Deadline",j.deadline));
+  s.appendChild(row("Attachments",String(j.attachmentCount||0)));
+  form.style.display="none";$("done").classList.add("on");$("ttl").textContent="Order received";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("cp").onclick=function(){var t=$("oid").textContent,b=this;try{navigator.clipboard.writeText(t)}catch(e){}b.textContent="Copied";setTimeout(function(){b.textContent="Copy"},1600)};
+$("again").onclick=function(){form.reset();picked=[];drawFiles();$("dtime").value="18:00";show("");go.disabled=false;go.textContent="Submit Order";
+  $("done").classList.remove("on");form.style.display="";$("ttl").textContent="Order Now";window.scrollTo({top:0,behavior:"smooth"})};
+})();
+</script>
+<script src="/js/flags.js?v=20261002fm" defer></script>
+<script src="/js/livechat.js?v=20261020ld" defer></script>
+<script src="/js/presence.js?v=20261020p1m" defer></script>
+<script>try{if(localStorage.getItem("ah_upq")){var s=document.createElement("script");s.src="/js/upload-manager.js?v=1";document.head.appendChild(s)}}catch(e){}</script>
+</body>
+</html>
